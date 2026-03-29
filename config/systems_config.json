@@ -1,0 +1,362 @@
+{
+  "FHGU0.5 Lay": {
+    "name": "FHGU0.5 Lay",
+    "market_column": "FHGU0.5 Lay Odds",
+    "has_filter": false,
+    "filter_condition": null,
+    "filter_buffer_min": null,
+    "configurations": [
+      {
+        "league": "Danish Superligaen",
+        "exact_min": 4.75,
+        "exact_max": 6.0,
+        "buffer_min": 4.25,
+        "buffer_max": 6.2
+      },
+      {
+        "league": "Dutch Eredivisie",
+        "exact_min": 5.25,
+        "exact_max": 5.75,
+        "buffer_min": 4.75,
+        "buffer_max": 5.8
+      },
+      {
+        "league": "English Championship",
+        "exact_min": 4.5,
+        "exact_max": 5.25,
+        "buffer_min": 4.0,
+        "buffer_max": 5.3
+      },
+      {
+        "league": "German Bundesliga",
+        "exact_min": 4.0,
+        "exact_max": 4.5,
+        "buffer_min": 3.6,
+        "buffer_max": 4.6
+      },
+      {
+        "league": "German Bundesliga 2",
+        "exact_min": 5.0,
+        "exact_max": 6.0,
+        "buffer_min": 4.5,
+        "buffer_max": 6.2
+      },
+      {
+        "league": "Portuguese Primeira Liga",
+        "exact_min": 4.75,
+        "exact_max": 5.25,
+        "buffer_min": 4.25,
+        "buffer_max": 5.3
+      },
+      {
+        "league": "Scottish Premiership",
+        "exact_min": 4.0,
+        "exact_max": 4.5,
+        "buffer_min": 3.5,
+        "buffer_max": 4.6
+      },
+      {
+        "league": "Turkish Super Lig",
+        "exact_min": 5.25,
+        "exact_max": 5.75,
+        "buffer_min": 4.75,
+        "buffer_max": 5.8
+      }
+    ]
+  },
+  "Home Win": {
+    "name": "Home Win",
+    "market_column": "Home Back Odds",
+    "has_filter": false,
+    "filter_condition": null,
+    "filter_buffer_min": null,
+    "configurations": [
+      {
+        "league": "Belgian Premier League",
+        "exact_min": 1.6,
+        "exact_max": 1.9,
+        "buffer_min": 1.5,
+        "buffer_max": 2.1
+      },
+      {
+        "league": "Danish Superligaen",
+        "exact_min": 1.6,
+        "exact_max": 1.9,
+        "buffer_min": 1.5,
+        "buffer_max": 2.1
+      },
+      {
+        "league": "English League One",
+        "exact_min": 1.8,
+        "exact_max": 2.1,
+        "buffer_min": 1.7,
+        "buffer_max": 2.3
+      },
+      {
+        "league": "Irish Premier League",
+        "exact_min": 2.0,
+        "exact_max": 2.25,
+        "buffer_min": 1.9,
+        "buffer_max": 2.5
+      },
+      {
+        "league": "Japanese J-League",
+        "exact_min": 2.0,
+        "exact_max": 2.25,
+        "buffer_min": 1.9,
+        "buffer_max": 2.5
+      },
+      {
+        "league": "Scottish Premiership",
+        "exact_min": 2.1,
+        "exact_max": 2.4,
+        "buffer_min": 2.0,
+        "buffer_max": 2.7
+      },
+      {
+        "league": "Turkish Super Lig",
+        "exact_min": 1.5,
+        "exact_max": 1.8,
+        "buffer_min": 1.4,
+        "buffer_max": 2.1
+      }
+    ]
+  },
+  "O2.5 Back": {
+    "name": "O2.5 Back",
+    "market_column": "O2.5 Back Odds",
+    "has_filter": true,
+    "filter_condition": "Home Back Odds > 2.00",
+    "filter_buffer_min": 1.8,
+    "configurations": [
+      {
+        "league": "Brazilian Serie A",
+        "exact_min": 1.51,
+        "exact_max": 2.0,
+        "buffer_min": 1.4,
+        "buffer_max": 2.3
+      },
+      {
+        "league": "Dutch Eerste Divisie",
+        "exact_min": 2.0,
+        "exact_max": 2.3,
+        "buffer_min": 1.9,
+        "buffer_max": 2.5
+      },
+      {
+        "league": "English Championship",
+        "exact_min": 1.51,
+        "exact_max": 1.8,
+        "buffer_min": 1.4,
+        "buffer_max": 2.1
+      },
+      {
+        "league": "French Ligue 2",
+        "exact_min": 1.51,
+        "exact_max": 1.9,
+        "buffer_min": 1.4,
+        "buffer_max": 2.1
+      },
+      {
+        "league": "German Bundesliga 2",
+        "exact_min": 2.0,
+        "exact_max": 2.25,
+        "buffer_min": 1.9,
+        "buffer_max": 2.5
+      },
+      {
+        "league": "Norwegian Tippeligaen",
+        "exact_min": 2.2,
+        "exact_max": 2.5,
+        "buffer_min": 2.1,
+        "buffer_max": 2.8
+      },
+      {
+        "league": "Portuguese Primeira Liga",
+        "exact_min": 1.75,
+        "exact_max": 2.0,
+        "buffer_min": 1.7,
+        "buffer_max": 2.3
+      },
+      {
+        "league": "Scottish Premiership",
+        "exact_min": 1.8,
+        "exact_max": 2.1,
+        "buffer_min": 1.7,
+        "buffer_max": 2.4
+      },
+      {
+        "league": "Spanish Primera Division",
+        "exact_min": 1.51,
+        "exact_max": 1.75,
+        "buffer_min": 1.4,
+        "buffer_max": 2.0
+      },
+      {
+        "league": "Spanish Segunda Division",
+        "exact_min": 1.6,
+        "exact_max": 1.9,
+        "buffer_min": 1.5,
+        "buffer_max": 2.2
+      },
+      {
+        "league": "Swiss Super League",
+        "exact_min": 2.0,
+        "exact_max": 2.25,
+        "buffer_min": 1.9,
+        "buffer_max": 2.5
+      }
+    ]
+  },
+  "O3.5 Lay": {
+    "name": "O3.5 Lay",
+    "market_column": "O3.5 Lay Odds",
+    "has_filter": false,
+    "filter_condition": null,
+    "filter_buffer_min": null,
+    "configurations": [
+      {
+        "league": "Austrian Bundesliga",
+        "exact_min": 5.0,
+        "exact_max": 6.0,
+        "buffer_min": 4.5,
+        "buffer_max": 6.2
+      },
+      {
+        "league": "Belgian Premier League",
+        "exact_min": 4.0,
+        "exact_max": 4.75,
+        "buffer_min": 3.5,
+        "buffer_max": 4.9
+      },
+      {
+        "league": "Danish Superligaen",
+        "exact_min": 4.25,
+        "exact_max": 4.75,
+        "buffer_min": 3.75,
+        "buffer_max": 4.9
+      },
+      {
+        "league": "English Championship",
+        "exact_min": 4.0,
+        "exact_max": 4.5,
+        "buffer_min": 3.5,
+        "buffer_max": 4.6
+      },
+      {
+        "league": "English League One",
+        "exact_min": 3.75,
+        "exact_max": 4.25,
+        "buffer_min": 3.3,
+        "buffer_max": 4.4
+      },
+      {
+        "league": "French Ligue 1",
+        "exact_min": 5.25,
+        "exact_max": 6.0,
+        "buffer_min": 4.75,
+        "buffer_max": 6.2
+      },
+      {
+        "league": "German Bundesliga",
+        "exact_min": 4.25,
+        "exact_max": 4.75,
+        "buffer_min": 3.75,
+        "buffer_max": 4.9
+      },
+      {
+        "league": "Irish Premier League",
+        "exact_min": 5.25,
+        "exact_max": 5.75,
+        "buffer_min": 4.75,
+        "buffer_max": 5.9
+      },
+      {
+        "league": "Japanese J-League",
+        "exact_min": 5.25,
+        "exact_max": 5.75,
+        "buffer_min": 4.75,
+        "buffer_max": 5.9
+      },
+      {
+        "league": "Polish Ekstraklasa",
+        "exact_min": 5.5,
+        "exact_max": 6.0,
+        "buffer_min": 5.0,
+        "buffer_max": 6.2
+      },
+      {
+        "league": "Swedish Allsvenskan",
+        "exact_min": 5.0,
+        "exact_max": 6.0,
+        "buffer_min": 4.5,
+        "buffer_max": 6.2
+      }
+    ]
+  },
+  "U1.5 Lay": {
+    "name": "U1.5 Lay",
+    "market_column": "U1.5 Lay Odds",
+    "has_filter": false,
+    "filter_condition": null,
+    "filter_buffer_min": null,
+    "configurations": [
+      {
+        "league": "Danish Superligaen",
+        "exact_min": 4.5,
+        "exact_max": 5.0,
+        "buffer_min": 4.0,
+        "buffer_max": 5.1
+      },
+      {
+        "league": "Dutch Eerste Divisie",
+        "exact_min": 4.0,
+        "exact_max": 4.5,
+        "buffer_min": 3.5,
+        "buffer_max": 4.6
+      },
+      {
+        "league": "English Premier League",
+        "exact_min": 3.25,
+        "exact_max": 3.75,
+        "buffer_min": 2.8,
+        "buffer_max": 3.9
+      },
+      {
+        "league": "German Bundesliga",
+        "exact_min": 5.5,
+        "exact_max": 6.0,
+        "buffer_min": 5.0,
+        "buffer_max": 6.2
+      },
+      {
+        "league": "Irish Premier League",
+        "exact_min": 5.0,
+        "exact_max": 6.0,
+        "buffer_min": 4.5,
+        "buffer_max": 6.2
+      },
+      {
+        "league": "Polish Ekstraklasa",
+        "exact_min": 5.0,
+        "exact_max": 5.5,
+        "buffer_min": 4.5,
+        "buffer_max": 5.6
+      },
+      {
+        "league": "Scottish Premiership",
+        "exact_min": 4.75,
+        "exact_max": 5.25,
+        "buffer_min": 4.25,
+        "buffer_max": 5.4
+      },
+      {
+        "league": "Swiss Super League",
+        "exact_min": 3.25,
+        "exact_max": 4.0,
+        "buffer_min": 2.75,
+        "buffer_max": 4.1
+      }
+    ]
+  }
+}

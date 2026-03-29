@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+venv/
+env/
+.Python
+*.so
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Data files - users upload these
+*.xlsx
+*.csv
+*.xls
+
+# OS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+temp_*
+
+# Backup files
+*.backup
+*.old
+*.bak
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Unit test / coverage
+.coverage
+htmlcov/
+.pytest_cache/

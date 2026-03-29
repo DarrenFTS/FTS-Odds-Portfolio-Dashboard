@@ -1,0 +1,2175 @@
+[
+  {
+    "System": "Home Win",
+    "League": "Irish Premier League",
+    "Odds_Min": 2.0,
+    "Odds_Max": 2.25,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 45,
+    "Total_PL": 24.08,
+    "Total_SR": 73.33,
+    "Total_ROI": 53.51,
+    "Max_Drawdown": 4.0,
+    "Season_Results": [
+      {
+        "Season": "2022",
+        "Bets": 13,
+        "PL": 7.84,
+        "SR": 76.92,
+        "ROI": 60.31
+      },
+      {
+        "Season": "2023",
+        "Bets": 9,
+        "PL": 7.82,
+        "SR": 88.89,
+        "ROI": 86.89
+      },
+      {
+        "Season": "2024",
+        "Bets": 12,
+        "PL": 2.48,
+        "SR": 58.33,
+        "ROI": 20.67
+      },
+      {
+        "Season": "2025",
+        "Bets": 11,
+        "PL": 5.94,
+        "SR": 72.73,
+        "ROI": 54.0
+      }
+    ]
+  },
+  {
+    "System": "Home Win",
+    "League": "Japanese J-League",
+    "Odds_Min": 2.0,
+    "Odds_Max": 2.25,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 171,
+    "Total_PL": 25.82,
+    "Total_SR": 54.97,
+    "Total_ROI": 15.1,
+    "Max_Drawdown": 12.26,
+    "Season_Results": [
+      {
+        "Season": "2022",
+        "Bets": 40,
+        "PL": 0.14,
+        "SR": 47.5,
+        "ROI": 0.35
+      },
+      {
+        "Season": "2023",
+        "Bets": 35,
+        "PL": 17.54,
+        "SR": 71.43,
+        "ROI": 50.11
+      },
+      {
+        "Season": "2024",
+        "Bets": 49,
+        "PL": -3.36,
+        "SR": 44.9,
+        "ROI": -6.86
+      },
+      {
+        "Season": "2025",
+        "Bets": 47,
+        "PL": 11.5,
+        "SR": 59.57,
+        "ROI": 24.47
+      }
+    ]
+  },
+  {
+    "System": "Home Win",
+    "League": "Belgian Premier League",
+    "Odds_Min": 1.6,
+    "Odds_Max": 1.9,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 229,
+    "Total_PL": 28.64,
+    "Total_SR": 65.07,
+    "Total_ROI": 12.51,
+    "Max_Drawdown": 9.48,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 41,
+        "PL": 8.73,
+        "SR": 70.73,
+        "ROI": 21.29
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 58,
+        "PL": -4.81,
+        "SR": 53.45,
+        "ROI": -8.29
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 49,
+        "PL": 9.84,
+        "SR": 69.39,
+        "ROI": 20.08
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 53,
+        "PL": 9.69,
+        "SR": 67.92,
+        "ROI": 18.28
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 28,
+        "PL": 5.19,
+        "SR": 67.86,
+        "ROI": 18.54
+      }
+    ]
+  },
+  {
+    "System": "Home Win",
+    "League": "Scottish Premiership",
+    "Odds_Min": 2.1,
+    "Odds_Max": 2.4,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 134,
+    "Total_PL": 15.41,
+    "Total_SR": 50.0,
+    "Total_ROI": 11.5,
+    "Max_Drawdown": 12.84,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 34,
+        "PL": 4.65,
+        "SR": 50.0,
+        "ROI": 13.68
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 32,
+        "PL": 16.85,
+        "SR": 68.75,
+        "ROI": 52.66
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 31,
+        "PL": -4.37,
+        "SR": 38.71,
+        "ROI": -14.1
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 22,
+        "PL": -1.98,
+        "SR": 40.91,
+        "ROI": -9.0
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 15,
+        "PL": 0.26,
+        "SR": 46.67,
+        "ROI": 1.73
+      }
+    ]
+  },
+  {
+    "System": "Home Win",
+    "League": "Turkish Super Lig",
+    "Odds_Min": 1.5,
+    "Odds_Max": 1.8,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 228,
+    "Total_PL": 25.86,
+    "Total_SR": 67.54,
+    "Total_ROI": 11.34,
+    "Max_Drawdown": 7.75,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 65,
+        "PL": 7.41,
+        "SR": 67.69,
+        "ROI": 11.4
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 46,
+        "PL": 10.16,
+        "SR": 73.91,
+        "ROI": 22.09
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 42,
+        "PL": 1.47,
+        "SR": 61.9,
+        "ROI": 3.5
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 43,
+        "PL": 6.34,
+        "SR": 69.77,
+        "ROI": 14.74
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 32,
+        "PL": 0.48,
+        "SR": 62.5,
+        "ROI": 1.5
+      }
+    ]
+  },
+  {
+    "System": "Home Win",
+    "League": "Danish Superligaen",
+    "Odds_Min": 1.6,
+    "Odds_Max": 1.9,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 166,
+    "Total_PL": 16.15,
+    "Total_SR": 63.25,
+    "Total_ROI": 9.73,
+    "Max_Drawdown": 10.63,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 38,
+        "PL": 6.59,
+        "SR": 68.42,
+        "ROI": 17.34
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 35,
+        "PL": 3.54,
+        "SR": 62.86,
+        "ROI": 10.11
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 33,
+        "PL": -0.14,
+        "SR": 57.58,
+        "ROI": -0.42
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 32,
+        "PL": -0.74,
+        "SR": 56.25,
+        "ROI": -2.31
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 28,
+        "PL": 6.9,
+        "SR": 71.43,
+        "ROI": 24.64
+      }
+    ]
+  },
+  {
+    "System": "Home Win",
+    "League": "English League One",
+    "Odds_Min": 1.8,
+    "Odds_Max": 2.1,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 445,
+    "Total_PL": 44.03,
+    "Total_SR": 57.3,
+    "Total_ROI": 9.89,
+    "Max_Drawdown": 9.95,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 93,
+        "PL": 14.21,
+        "SR": 60.22,
+        "ROI": 15.28
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 90,
+        "PL": 3.94,
+        "SR": 54.44,
+        "ROI": 4.38
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 105,
+        "PL": -1.85,
+        "SR": 51.43,
+        "ROI": -1.76
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 85,
+        "PL": 12.78,
+        "SR": 60.0,
+        "ROI": 15.04
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 72,
+        "PL": 14.95,
+        "SR": 62.5,
+        "ROI": 20.76
+      }
+    ]
+  },
+  {
+    "System": "O2.5 Back",
+    "League": "Brazilian Serie A",
+    "Odds_Min": 1.51,
+    "Odds_Max": 2.0,
+    "Stake_Mult": 1.0,
+    "Filter": "Home>2.00",
+    "Total_Bets": 35,
+    "Total_PL": 12.13,
+    "Total_SR": 71.43,
+    "Total_ROI": 34.66,
+    "Max_Drawdown": 3.0,
+    "Season_Results": [
+      {
+        "Season": "2022",
+        "Bets": 4,
+        "PL": 1.77,
+        "SR": 75.0,
+        "ROI": 44.25
+      },
+      {
+        "Season": "2023",
+        "Bets": 12,
+        "PL": 6.74,
+        "SR": 83.33,
+        "ROI": 56.17
+      },
+      {
+        "Season": "2024",
+        "Bets": 11,
+        "PL": 2.23,
+        "SR": 63.64,
+        "ROI": 20.27
+      },
+      {
+        "Season": "2025",
+        "Bets": 4,
+        "PL": 1.51,
+        "SR": 75.0,
+        "ROI": 37.75
+      },
+      {
+        "Season": "2026",
+        "Bets": 4,
+        "PL": -0.12,
+        "SR": 50.0,
+        "ROI": -3.0
+      }
+    ]
+  },
+  {
+    "System": "O2.5 Back",
+    "League": "Norwegian Tippeligaen",
+    "Odds_Min": 2.2,
+    "Odds_Max": 2.5,
+    "Stake_Mult": 1.0,
+    "Filter": "Home>2.00",
+    "Total_Bets": 33,
+    "Total_PL": 9.77,
+    "Total_SR": 57.58,
+    "Total_ROI": 29.61,
+    "Max_Drawdown": 4.0,
+    "Season_Results": [
+      {
+        "Season": "2022",
+        "Bets": 3,
+        "PL": 1.54,
+        "SR": 66.67,
+        "ROI": 51.33
+      },
+      {
+        "Season": "2023",
+        "Bets": 13,
+        "PL": 7.42,
+        "SR": 69.23,
+        "ROI": 57.08
+      },
+      {
+        "Season": "2024",
+        "Bets": 6,
+        "PL": 0.69,
+        "SR": 50.0,
+        "ROI": 11.5
+      },
+      {
+        "Season": "2025",
+        "Bets": 11,
+        "PL": 0.12,
+        "SR": 45.45,
+        "ROI": 1.09
+      }
+    ]
+  },
+  {
+    "System": "O2.5 Back",
+    "League": "Spanish Segunda Division",
+    "Odds_Min": 1.6,
+    "Odds_Max": 1.9,
+    "Stake_Mult": 1.0,
+    "Filter": "Home>2.00",
+    "Total_Bets": 66,
+    "Total_PL": 13.83,
+    "Total_SR": 68.18,
+    "Total_ROI": 20.95,
+    "Max_Drawdown": 4.0,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 10,
+        "PL": 2.37,
+        "SR": 70.0,
+        "ROI": 23.7
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 2,
+        "PL": 1.67,
+        "SR": 100.0,
+        "ROI": 83.5
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 10,
+        "PL": -1.09,
+        "SR": 50.0,
+        "ROI": -10.9
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 27,
+        "PL": 8.72,
+        "SR": 74.07,
+        "ROI": 32.3
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 17,
+        "PL": 2.16,
+        "SR": 64.71,
+        "ROI": 12.71
+      }
+    ]
+  },
+  {
+    "System": "O2.5 Back",
+    "League": "Swiss Super League",
+    "Odds_Min": 2.0,
+    "Odds_Max": 2.25,
+    "Stake_Mult": 1.0,
+    "Filter": "Home>2.00",
+    "Total_Bets": 60,
+    "Total_PL": 10.38,
+    "Total_SR": 56.67,
+    "Total_ROI": 17.3,
+    "Max_Drawdown": 4.0,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 12,
+        "PL": 2.52,
+        "SR": 58.33,
+        "ROI": 21.0
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 10,
+        "PL": 0.34,
+        "SR": 50.0,
+        "ROI": 3.4
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 13,
+        "PL": 1.38,
+        "SR": 53.85,
+        "ROI": 10.62
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 19,
+        "PL": 6.02,
+        "SR": 63.16,
+        "ROI": 31.68
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 6,
+        "PL": 0.12,
+        "SR": 50.0,
+        "ROI": 2.0
+      }
+    ]
+  },
+  {
+    "System": "O2.5 Back",
+    "League": "Spanish Primera Division",
+    "Odds_Min": 1.51,
+    "Odds_Max": 1.75,
+    "Stake_Mult": 1.0,
+    "Filter": "Home>2.00",
+    "Total_Bets": 73,
+    "Total_PL": 11.95,
+    "Total_SR": 71.23,
+    "Total_ROI": 16.37,
+    "Max_Drawdown": 4.0,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 9,
+        "PL": 2.53,
+        "SR": 77.78,
+        "ROI": 28.11
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 14,
+        "PL": 2.24,
+        "SR": 71.43,
+        "ROI": 16.0
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 25,
+        "PL": 2.96,
+        "SR": 68.0,
+        "ROI": 11.84
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 17,
+        "PL": 4.17,
+        "SR": 76.47,
+        "ROI": 24.53
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 8,
+        "PL": 0.05,
+        "SR": 62.5,
+        "ROI": 0.63
+      }
+    ]
+  },
+  {
+    "System": "O2.5 Back",
+    "League": "Scottish Premiership",
+    "Odds_Min": 1.8,
+    "Odds_Max": 2.1,
+    "Stake_Mult": 1.0,
+    "Filter": "Home>2.00",
+    "Total_Bets": 196,
+    "Total_PL": 28.98,
+    "Total_SR": 58.67,
+    "Total_ROI": 14.79,
+    "Max_Drawdown": 7.0,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 28,
+        "PL": 5.19,
+        "SR": 60.71,
+        "ROI": 18.54
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 25,
+        "PL": 6.22,
+        "SR": 64.0,
+        "ROI": 24.88
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 33,
+        "PL": 6.07,
+        "SR": 60.61,
+        "ROI": 18.39
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 55,
+        "PL": 9.72,
+        "SR": 60.0,
+        "ROI": 17.67
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 55,
+        "PL": 1.78,
+        "SR": 52.73,
+        "ROI": 3.24
+      }
+    ]
+  },
+  {
+    "System": "O2.5 Back",
+    "League": "German Bundesliga 2",
+    "Odds_Min": 2.0,
+    "Odds_Max": 2.25,
+    "Stake_Mult": 1.0,
+    "Filter": "Home>2.00",
+    "Total_Bets": 133,
+    "Total_PL": 22.64,
+    "Total_SR": 57.14,
+    "Total_ROI": 17.02,
+    "Max_Drawdown": 5.98,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 40,
+        "PL": 11.56,
+        "SR": 62.5,
+        "ROI": 28.9
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 53,
+        "PL": 6.24,
+        "SR": 54.72,
+        "ROI": 11.77
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 7,
+        "PL": 5.16,
+        "SR": 85.71,
+        "ROI": 73.71
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 15,
+        "PL": -2.92,
+        "SR": 40.0,
+        "ROI": -19.47
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 18,
+        "PL": 2.6,
+        "SR": 55.56,
+        "ROI": 14.44
+      }
+    ]
+  },
+  {
+    "System": "O2.5 Back",
+    "League": "French Ligue 2",
+    "Odds_Min": 1.51,
+    "Odds_Max": 1.9,
+    "Stake_Mult": 1.0,
+    "Filter": "Home>2.00",
+    "Total_Bets": 80,
+    "Total_PL": 11.31,
+    "Total_SR": 63.75,
+    "Total_ROI": 14.14,
+    "Max_Drawdown": 5.03,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 8,
+        "PL": 0.87,
+        "SR": 62.5,
+        "ROI": 10.88
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 10,
+        "PL": 0.24,
+        "SR": 60.0,
+        "ROI": 2.4
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 24,
+        "PL": -0.55,
+        "SR": 54.17,
+        "ROI": -2.29
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 21,
+        "PL": 7.69,
+        "SR": 76.19,
+        "ROI": 36.62
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 17,
+        "PL": 3.06,
+        "SR": 64.71,
+        "ROI": 18.0
+      }
+    ]
+  },
+  {
+    "System": "O2.5 Back",
+    "League": "Dutch Eerste Divisie",
+    "Odds_Min": 2.0,
+    "Odds_Max": 2.3,
+    "Stake_Mult": 1.0,
+    "Filter": "Home>2.00",
+    "Total_Bets": 65,
+    "Total_PL": 7.77,
+    "Total_SR": 53.85,
+    "Total_ROI": 11.95,
+    "Max_Drawdown": 6.09,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 8,
+        "PL": 2.26,
+        "SR": 62.5,
+        "ROI": 28.25
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 40,
+        "PL": 2.19,
+        "SR": 50.0,
+        "ROI": 5.48
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 14,
+        "PL": 6.32,
+        "SR": 71.43,
+        "ROI": 45.14
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 3,
+        "PL": -3.0,
+        "SR": 0.0,
+        "ROI": -100.0
+      }
+    ]
+  },
+  {
+    "System": "O2.5 Back",
+    "League": "English Championship",
+    "Odds_Min": 1.51,
+    "Odds_Max": 1.8,
+    "Stake_Mult": 1.0,
+    "Filter": "Home>2.00",
+    "Total_Bets": 114,
+    "Total_PL": 14.96,
+    "Total_SR": 66.67,
+    "Total_ROI": 13.12,
+    "Max_Drawdown": 4.94,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 11,
+        "PL": -0.85,
+        "SR": 54.55,
+        "ROI": -7.73
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 3,
+        "PL": 2.13,
+        "SR": 100.0,
+        "ROI": 71.0
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 65,
+        "PL": 7.6,
+        "SR": 66.15,
+        "ROI": 11.69
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 20,
+        "PL": 2.16,
+        "SR": 65.0,
+        "ROI": 10.8
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 15,
+        "PL": 3.92,
+        "SR": 73.33,
+        "ROI": 26.13
+      }
+    ]
+  },
+  {
+    "System": "O2.5 Back",
+    "League": "Portuguese Primeira Liga",
+    "Odds_Min": 1.75,
+    "Odds_Max": 2.0,
+    "Stake_Mult": 1.0,
+    "Filter": "Home>2.00",
+    "Total_Bets": 178,
+    "Total_PL": 19.5,
+    "Total_SR": 59.55,
+    "Total_ROI": 10.96,
+    "Max_Drawdown": 10.5,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 33,
+        "PL": 6.15,
+        "SR": 63.64,
+        "ROI": 18.64
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 46,
+        "PL": -1.78,
+        "SR": 52.17,
+        "ROI": -3.87
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 48,
+        "PL": 9.52,
+        "SR": 64.58,
+        "ROI": 19.83
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 29,
+        "PL": -4.67,
+        "SR": 44.83,
+        "ROI": -16.1
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 22,
+        "PL": 10.28,
+        "SR": 77.27,
+        "ROI": 46.73
+      }
+    ]
+  },
+  {
+    "System": "O3.5 Lay",
+    "League": "Polish Ekstraklasa",
+    "Odds_Min": 5.5,
+    "Odds_Max": 6.0,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 53,
+    "Total_PL": 29.82,
+    "Total_SR": 92.45,
+    "Total_ROI": 56.26,
+    "Max_Drawdown": 5.08,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 16,
+        "PL": 4.52,
+        "SR": 87.5,
+        "ROI": 28.25
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 10,
+        "PL": 9.8,
+        "SR": 100.0,
+        "ROI": 98.0
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 16,
+        "PL": 15.68,
+        "SR": 100.0,
+        "ROI": 98.0
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 8,
+        "PL": 2.36,
+        "SR": 87.5,
+        "ROI": 29.5
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 3,
+        "PL": -2.54,
+        "SR": 66.67,
+        "ROI": -84.67
+      }
+    ]
+  },
+  {
+    "System": "O3.5 Lay",
+    "League": "Danish Superligaen",
+    "Odds_Min": 4.25,
+    "Odds_Max": 4.75,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 39,
+    "Total_PL": 20.8,
+    "Total_SR": 89.74,
+    "Total_ROI": 53.33,
+    "Max_Drawdown": 4.84,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 7,
+        "PL": 6.86,
+        "SR": 100.0,
+        "ROI": 98.0
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 15,
+        "PL": 5.94,
+        "SR": 86.67,
+        "ROI": 39.6
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 15,
+        "PL": 10.42,
+        "SR": 93.33,
+        "ROI": 69.47
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 2,
+        "PL": -2.42,
+        "SR": 50.0,
+        "ROI": -121.0
+      }
+    ]
+  },
+  {
+    "System": "O3.5 Lay",
+    "League": "Irish Premier League",
+    "Odds_Min": 5.25,
+    "Odds_Max": 5.75,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 53,
+    "Total_PL": 24.54,
+    "Total_SR": 90.57,
+    "Total_ROI": 46.3,
+    "Max_Drawdown": 6.16,
+    "Season_Results": [
+      {
+        "Season": "2022",
+        "Bets": 16,
+        "PL": 4.62,
+        "SR": 87.5,
+        "ROI": 28.87
+      },
+      {
+        "Season": "2023",
+        "Bets": 7,
+        "PL": 6.86,
+        "SR": 100.0,
+        "ROI": 98.0
+      },
+      {
+        "Season": "2024",
+        "Bets": 19,
+        "PL": 7.86,
+        "SR": 89.47,
+        "ROI": 41.37
+      },
+      {
+        "Season": "2025",
+        "Bets": 11,
+        "PL": 5.2,
+        "SR": 90.91,
+        "ROI": 47.27
+      }
+    ]
+  },
+  {
+    "System": "O3.5 Lay",
+    "League": "German Bundesliga",
+    "Odds_Min": 4.25,
+    "Odds_Max": 4.75,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 57,
+    "Total_PL": 20.22,
+    "Total_SR": 85.96,
+    "Total_ROI": 35.47,
+    "Max_Drawdown": 9.0,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 16,
+        "PL": 7.12,
+        "SR": 87.5,
+        "ROI": 44.5
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 15,
+        "PL": 6.14,
+        "SR": 86.67,
+        "ROI": 40.93
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 7,
+        "PL": -2.4,
+        "SR": 71.43,
+        "ROI": -34.29
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 8,
+        "PL": 7.84,
+        "SR": 100.0,
+        "ROI": 98.0
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 11,
+        "PL": 1.52,
+        "SR": 81.82,
+        "ROI": 13.82
+      }
+    ]
+  },
+  {
+    "System": "O3.5 Lay",
+    "League": "Japanese J-League",
+    "Odds_Min": 5.25,
+    "Odds_Max": 5.75,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 93,
+    "Total_PL": 36.14,
+    "Total_SR": 89.25,
+    "Total_ROI": 38.86,
+    "Max_Drawdown": 11.54,
+    "Season_Results": [
+      {
+        "Season": "2022",
+        "Bets": 16,
+        "PL": -0.86,
+        "SR": 81.25,
+        "ROI": -5.37
+      },
+      {
+        "Season": "2023",
+        "Bets": 14,
+        "PL": 2.66,
+        "SR": 85.71,
+        "ROI": 19.0
+      },
+      {
+        "Season": "2024",
+        "Bets": 19,
+        "PL": 7.76,
+        "SR": 89.47,
+        "ROI": 40.84
+      },
+      {
+        "Season": "2025",
+        "Bets": 44,
+        "PL": 26.58,
+        "SR": 93.18,
+        "ROI": 60.41
+      }
+    ]
+  },
+  {
+    "System": "O3.5 Lay",
+    "League": "French Ligue 1",
+    "Odds_Min": 5.25,
+    "Odds_Max": 6.0,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 40,
+    "Total_PL": 10.7,
+    "Total_SR": 87.5,
+    "Total_ROI": 26.75,
+    "Max_Drawdown": 4.8,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 13,
+        "PL": 1.38,
+        "SR": 84.62,
+        "ROI": 10.62
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 11,
+        "PL": 5.0,
+        "SR": 90.91,
+        "ROI": 45.45
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 10,
+        "PL": 4.02,
+        "SR": 90.0,
+        "ROI": 40.2
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 3,
+        "PL": -2.64,
+        "SR": 66.67,
+        "ROI": -88.0
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 3,
+        "PL": 2.94,
+        "SR": 100.0,
+        "ROI": 98.0
+      }
+    ]
+  },
+  {
+    "System": "O3.5 Lay",
+    "League": "Austrian Bundesliga",
+    "Odds_Min": 5.0,
+    "Odds_Max": 6.0,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 33,
+    "Total_PL": 10.22,
+    "Total_SR": 87.88,
+    "Total_ROI": 30.97,
+    "Max_Drawdown": 8.02,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 4,
+        "PL": -1.46,
+        "SR": 75.0,
+        "ROI": -36.5
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 14,
+        "PL": 13.72,
+        "SR": 100.0,
+        "ROI": 98.0
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 6,
+        "PL": 0.1,
+        "SR": 83.33,
+        "ROI": 1.67
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 9,
+        "PL": -2.14,
+        "SR": 77.78,
+        "ROI": -23.78
+      }
+    ]
+  },
+  {
+    "System": "O3.5 Lay",
+    "League": "Swedish Allsvenskan",
+    "Odds_Min": 5.0,
+    "Odds_Max": 6.0,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 40,
+    "Total_PL": 8.32,
+    "Total_SR": 85.0,
+    "Total_ROI": 20.8,
+    "Max_Drawdown": 9.76,
+    "Season_Results": [
+      {
+        "Season": "2022",
+        "Bets": 10,
+        "PL": -0.26,
+        "SR": 80.0,
+        "ROI": -2.6
+      },
+      {
+        "Season": "2023",
+        "Bets": 15,
+        "PL": 9.52,
+        "SR": 93.33,
+        "ROI": 63.47
+      },
+      {
+        "Season": "2024",
+        "Bets": 4,
+        "PL": 3.92,
+        "SR": 100.0,
+        "ROI": 98.0
+      },
+      {
+        "Season": "2025",
+        "Bets": 11,
+        "PL": -4.86,
+        "SR": 72.73,
+        "ROI": -44.18
+      }
+    ]
+  },
+  {
+    "System": "O3.5 Lay",
+    "League": "Belgian Premier League",
+    "Odds_Min": 4.0,
+    "Odds_Max": 4.75,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 111,
+    "Total_PL": 19.9,
+    "Total_SR": 81.08,
+    "Total_ROI": 17.93,
+    "Max_Drawdown": 12.08,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 14,
+        "PL": 5.46,
+        "SR": 85.71,
+        "ROI": 39.0
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 30,
+        "PL": 3.52,
+        "SR": 80.0,
+        "ROI": 11.73
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 16,
+        "PL": -0.74,
+        "SR": 75.0,
+        "ROI": -4.63
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 27,
+        "PL": 9.34,
+        "SR": 85.19,
+        "ROI": 34.59
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 24,
+        "PL": 2.32,
+        "SR": 79.17,
+        "ROI": 9.67
+      }
+    ]
+  },
+  {
+    "System": "O3.5 Lay",
+    "League": "English Championship",
+    "Odds_Min": 4.0,
+    "Odds_Max": 4.5,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 645,
+    "Total_PL": 82.7,
+    "Total_SR": 79.84,
+    "Total_ROI": 12.82,
+    "Max_Drawdown": 19.06,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 134,
+        "PL": -7.92,
+        "SR": 75.37,
+        "ROI": -5.91
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 172,
+        "PL": 3.74,
+        "SR": 77.33,
+        "ROI": 2.17
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 93,
+        "PL": 28.74,
+        "SR": 83.87,
+        "ROI": 30.9
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 127,
+        "PL": 27.92,
+        "SR": 81.89,
+        "ROI": 21.98
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 119,
+        "PL": 30.22,
+        "SR": 83.19,
+        "ROI": 25.39
+      }
+    ]
+  },
+  {
+    "System": "O3.5 Lay",
+    "League": "English League One",
+    "Odds_Min": 3.75,
+    "Odds_Max": 4.25,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 668,
+    "Total_PL": 83.64,
+    "Total_SR": 78.29,
+    "Total_ROI": 12.52,
+    "Max_Drawdown": 29.2,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 154,
+        "PL": -6.03,
+        "SR": 74.03,
+        "ROI": -3.92
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 152,
+        "PL": 41.8,
+        "SR": 82.24,
+        "ROI": 27.5
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 139,
+        "PL": 26.28,
+        "SR": 79.86,
+        "ROI": 18.91
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 130,
+        "PL": 32.73,
+        "SR": 81.54,
+        "ROI": 25.18
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 93,
+        "PL": -11.14,
+        "SR": 72.04,
+        "ROI": -11.98
+      }
+    ]
+  },
+  {
+    "System": "U1.5 Lay",
+    "League": "Scottish Premiership",
+    "Odds_Min": 4.75,
+    "Odds_Max": 5.25,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 72,
+    "Total_PL": 35.9,
+    "Total_SR": 90.28,
+    "Total_ROI": 49.86,
+    "Max_Drawdown": 8.2,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 17,
+        "PL": 6.8,
+        "SR": 88.24,
+        "ROI": 40.0
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 13,
+        "PL": 12.74,
+        "SR": 100.0,
+        "ROI": 98.0
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 11,
+        "PL": 5.8,
+        "SR": 90.91,
+        "ROI": 52.73
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 10,
+        "PL": -0.36,
+        "SR": 80.0,
+        "ROI": -3.6
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 21,
+        "PL": 10.92,
+        "SR": 90.48,
+        "ROI": 52.0
+      }
+    ]
+  },
+  {
+    "System": "U1.5 Lay",
+    "League": "Swiss Super League",
+    "Odds_Min": 3.25,
+    "Odds_Max": 4.0,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 68,
+    "Total_PL": 32.72,
+    "Total_SR": 86.76,
+    "Total_ROI": 48.12,
+    "Max_Drawdown": 6.44,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 19,
+        "PL": 11.21,
+        "SR": 89.47,
+        "ROI": 59.0
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 10,
+        "PL": 9.8,
+        "SR": 100.0,
+        "ROI": 98.0
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 13,
+        "PL": -2.63,
+        "SR": 69.23,
+        "ROI": -20.23
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 21,
+        "PL": 13.42,
+        "SR": 90.48,
+        "ROI": 63.9
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 5,
+        "PL": 0.92,
+        "SR": 80.0,
+        "ROI": 18.4
+      }
+    ]
+  },
+  {
+    "System": "U1.5 Lay",
+    "League": "Irish Premier League",
+    "Odds_Min": 5.0,
+    "Odds_Max": 6.0,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 44,
+    "Total_PL": 16.52,
+    "Total_SR": 88.64,
+    "Total_ROI": 37.55,
+    "Max_Drawdown": 8.98,
+    "Season_Results": [
+      {
+        "Season": "2022",
+        "Bets": 9,
+        "PL": 3.74,
+        "SR": 88.89,
+        "ROI": 41.56
+      },
+      {
+        "Season": "2023",
+        "Bets": 14,
+        "PL": 13.72,
+        "SR": 100.0,
+        "ROI": 98.0
+      },
+      {
+        "Season": "2024",
+        "Bets": 11,
+        "PL": -5.06,
+        "SR": 72.73,
+        "ROI": -46.0
+      },
+      {
+        "Season": "2025",
+        "Bets": 10,
+        "PL": 4.12,
+        "SR": 90.0,
+        "ROI": 41.2
+      }
+    ]
+  },
+  {
+    "System": "U1.5 Lay",
+    "League": "German Bundesliga",
+    "Odds_Min": 5.5,
+    "Odds_Max": 6.0,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 190,
+    "Total_PL": 67.52,
+    "Total_SR": 88.95,
+    "Total_ROI": 35.54,
+    "Max_Drawdown": 8.1,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 35,
+        "PL": 5.4,
+        "SR": 85.71,
+        "ROI": 15.43
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 40,
+        "PL": 11.3,
+        "SR": 87.5,
+        "ROI": 28.25
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 38,
+        "PL": 31.76,
+        "SR": 97.37,
+        "ROI": 83.58
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 49,
+        "PL": 3.18,
+        "SR": 83.67,
+        "ROI": 6.49
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 28,
+        "PL": 15.88,
+        "SR": 92.86,
+        "ROI": 56.71
+      }
+    ]
+  },
+  {
+    "System": "U1.5 Lay",
+    "League": "Polish Ekstraklasa",
+    "Odds_Min": 5.0,
+    "Odds_Max": 5.5,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 116,
+    "Total_PL": 19.84,
+    "Total_SR": 84.48,
+    "Total_ROI": 17.1,
+    "Max_Drawdown": 15.72,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 15,
+        "PL": 4.34,
+        "SR": 86.67,
+        "ROI": 28.93
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 15,
+        "PL": 4.54,
+        "SR": 86.67,
+        "ROI": 30.27
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 21,
+        "PL": 4.54,
+        "SR": 85.71,
+        "ROI": 21.62
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 39,
+        "PL": 12.12,
+        "SR": 87.18,
+        "ROI": 31.08
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 26,
+        "PL": -5.7,
+        "SR": 76.92,
+        "ROI": -21.92
+      }
+    ]
+  },
+  {
+    "System": "U1.5 Lay",
+    "League": "Danish Superligaen",
+    "Odds_Min": 4.5,
+    "Odds_Max": 5.0,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 247,
+    "Total_PL": 57.44,
+    "Total_SR": 84.21,
+    "Total_ROI": 23.26,
+    "Max_Drawdown": 20.12,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 58,
+        "PL": 15.22,
+        "SR": 84.48,
+        "ROI": 26.24
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 59,
+        "PL": 11.12,
+        "SR": 83.05,
+        "ROI": 18.85
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 48,
+        "PL": 33.2,
+        "SR": 93.75,
+        "ROI": 69.17
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 43,
+        "PL": -6.26,
+        "SR": 76.74,
+        "ROI": -14.56
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 39,
+        "PL": 4.16,
+        "SR": 82.05,
+        "ROI": 10.67
+      }
+    ]
+  },
+  {
+    "System": "U1.5 Lay",
+    "League": "Dutch Eerste Divisie",
+    "Odds_Min": 4.0,
+    "Odds_Max": 4.5,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 161,
+    "Total_PL": 34.36,
+    "Total_SR": 81.99,
+    "Total_ROI": 21.34,
+    "Max_Drawdown": 19.68,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 34,
+        "PL": 8.24,
+        "SR": 82.35,
+        "ROI": 24.24
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 59,
+        "PL": 14.92,
+        "SR": 83.05,
+        "ROI": 25.29
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 46,
+        "PL": 2.28,
+        "SR": 78.26,
+        "ROI": 4.96
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 17,
+        "PL": 4.02,
+        "SR": 82.35,
+        "ROI": 23.65
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 5,
+        "PL": 4.9,
+        "SR": 100.0,
+        "ROI": 98.0
+      }
+    ]
+  },
+  {
+    "System": "U1.5 Lay",
+    "League": "English Premier League",
+    "Odds_Min": 3.25,
+    "Odds_Max": 3.75,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 236,
+    "Total_PL": 36.7,
+    "Total_SR": 76.27,
+    "Total_ROI": 15.55,
+    "Max_Drawdown": 12.79,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 82,
+        "PL": 16.92,
+        "SR": 78.05,
+        "ROI": 20.63
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 68,
+        "PL": 4.1,
+        "SR": 73.53,
+        "ROI": 6.03
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 30,
+        "PL": 8.77,
+        "SR": 80.0,
+        "ROI": 29.23
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 15,
+        "PL": -2.15,
+        "SR": 66.67,
+        "ROI": -14.33
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 41,
+        "PL": 9.06,
+        "SR": 78.05,
+        "ROI": 22.1
+      }
+    ]
+  },
+  {
+    "System": "FHGU0.5 Lay",
+    "League": "Turkish Super Lig",
+    "Odds_Min": 5.25,
+    "Odds_Max": 5.75,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 40,
+    "Total_PL": 22.86,
+    "Total_SR": 92.5,
+    "Total_ROI": 57.15,
+    "Max_Drawdown": 4.6,
+    "Season_Results": [
+      {
+        "Season": "2022-2023",
+        "Bets": 11,
+        "PL": 10.78,
+        "SR": 100.0,
+        "ROI": 98.0
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 13,
+        "PL": 1.88,
+        "SR": 84.62,
+        "ROI": 14.46
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 12,
+        "PL": 11.76,
+        "SR": 100.0,
+        "ROI": 98.0
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 4,
+        "PL": -1.56,
+        "SR": 75.0,
+        "ROI": -39.0
+      }
+    ]
+  },
+  {
+    "System": "FHGU0.5 Lay",
+    "League": "Danish Superligaen",
+    "Odds_Min": 4.75,
+    "Odds_Max": 6.0,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 37,
+    "Total_PL": 16.64,
+    "Total_SR": 89.19,
+    "Total_ROI": 44.97,
+    "Max_Drawdown": 4.1,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 1,
+        "PL": 0.98,
+        "SR": 100.0,
+        "ROI": 98.0
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 3,
+        "PL": 2.94,
+        "SR": 100.0,
+        "ROI": 98.0
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 8,
+        "PL": 2.76,
+        "SR": 87.5,
+        "ROI": 34.5
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 11,
+        "PL": 1.02,
+        "SR": 81.82,
+        "ROI": 9.27
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 14,
+        "PL": 8.94,
+        "SR": 92.86,
+        "ROI": 63.86
+      }
+    ]
+  },
+  {
+    "System": "FHGU0.5 Lay",
+    "League": "German Bundesliga 2",
+    "Odds_Min": 5.0,
+    "Odds_Max": 6.0,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 58,
+    "Total_PL": 20.78,
+    "Total_SR": 87.93,
+    "Total_ROI": 35.83,
+    "Max_Drawdown": 8.4,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 6,
+        "PL": 5.88,
+        "SR": 100.0,
+        "ROI": 98.0
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 13,
+        "PL": 7.76,
+        "SR": 92.31,
+        "ROI": 59.69
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 18,
+        "PL": 7.08,
+        "SR": 88.89,
+        "ROI": 39.33
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 18,
+        "PL": 7.48,
+        "SR": 88.89,
+        "ROI": 41.56
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 3,
+        "PL": -7.42,
+        "SR": 33.33,
+        "ROI": -247.33
+      }
+    ]
+  },
+  {
+    "System": "FHGU0.5 Lay",
+    "League": "English Championship",
+    "Odds_Min": 4.5,
+    "Odds_Max": 5.25,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 44,
+    "Total_PL": 15.54,
+    "Total_SR": 86.36,
+    "Total_ROI": 35.32,
+    "Max_Drawdown": 6.68,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 5,
+        "PL": 0.32,
+        "SR": 80.0,
+        "ROI": 6.4
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 1,
+        "PL": 0.98,
+        "SR": 100.0,
+        "ROI": 98.0
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 31,
+        "PL": 16.34,
+        "SR": 90.32,
+        "ROI": 52.71
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 4,
+        "PL": -0.56,
+        "SR": 75.0,
+        "ROI": -14.0
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 3,
+        "PL": -1.54,
+        "SR": 66.67,
+        "ROI": -51.33
+      }
+    ]
+  },
+  {
+    "System": "FHGU0.5 Lay",
+    "League": "Dutch Eredivisie",
+    "Odds_Min": 5.25,
+    "Odds_Max": 5.75,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 69,
+    "Total_PL": 17.8,
+    "Total_SR": 86.96,
+    "Total_ROI": 25.8,
+    "Max_Drawdown": 9.3,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 9,
+        "PL": 3.44,
+        "SR": 88.89,
+        "ROI": 38.22
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 17,
+        "PL": 0.02,
+        "SR": 82.35,
+        "ROI": 0.12
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 13,
+        "PL": 1.48,
+        "SR": 84.62,
+        "ROI": 11.38
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 16,
+        "PL": 4.72,
+        "SR": 87.5,
+        "ROI": 29.5
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 14,
+        "PL": 8.14,
+        "SR": 92.86,
+        "ROI": 58.14
+      }
+    ]
+  },
+  {
+    "System": "FHGU0.5 Lay",
+    "League": "German Bundesliga",
+    "Odds_Min": 4.0,
+    "Odds_Max": 4.5,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 341,
+    "Total_PL": 93.52,
+    "Total_SR": 83.28,
+    "Total_ROI": 27.43,
+    "Max_Drawdown": 16.22,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 64,
+        "PL": 15.44,
+        "SR": 82.81,
+        "ROI": 24.13
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 64,
+        "PL": 4.3,
+        "SR": 78.12,
+        "ROI": 6.72
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 71,
+        "PL": 48.88,
+        "SR": 92.96,
+        "ROI": 68.85
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 81,
+        "PL": 7.52,
+        "SR": 79.01,
+        "ROI": 9.28
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 61,
+        "PL": 17.38,
+        "SR": 83.61,
+        "ROI": 28.49
+      }
+    ]
+  },
+  {
+    "System": "FHGU0.5 Lay",
+    "League": "Portuguese Primeira Liga",
+    "Odds_Min": 4.75,
+    "Odds_Max": 5.25,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 62,
+    "Total_PL": 16.44,
+    "Total_SR": 85.48,
+    "Total_ROI": 26.52,
+    "Max_Drawdown": 11.02,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 5,
+        "PL": 0.02,
+        "SR": 80.0,
+        "ROI": 0.4
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 12,
+        "PL": 2.0,
+        "SR": 83.33,
+        "ROI": 16.67
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 21,
+        "PL": 0.66,
+        "SR": 80.95,
+        "ROI": 3.14
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 14,
+        "PL": 8.74,
+        "SR": 92.86,
+        "ROI": 62.43
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 10,
+        "PL": 5.02,
+        "SR": 90.0,
+        "ROI": 50.2
+      }
+    ]
+  },
+  {
+    "System": "FHGU0.5 Lay",
+    "League": "Scottish Premiership",
+    "Odds_Min": 4.0,
+    "Odds_Max": 4.5,
+    "Stake_Mult": 1.0,
+    "Filter": "None",
+    "Total_Bets": 119,
+    "Total_PL": 31.22,
+    "Total_SR": 83.19,
+    "Total_ROI": 26.24,
+    "Max_Drawdown": 9.74,
+    "Season_Results": [
+      {
+        "Season": "2021-2022",
+        "Bets": 14,
+        "PL": 0.88,
+        "SR": 78.57,
+        "ROI": 6.29
+      },
+      {
+        "Season": "2022-2023",
+        "Bets": 25,
+        "PL": 11.66,
+        "SR": 88.0,
+        "ROI": 46.64
+      },
+      {
+        "Season": "2023-2024",
+        "Bets": 28,
+        "PL": 6.14,
+        "SR": 82.14,
+        "ROI": 21.93
+      },
+      {
+        "Season": "2024-2025",
+        "Bets": 26,
+        "PL": 8.26,
+        "SR": 84.62,
+        "ROI": 31.77
+      },
+      {
+        "Season": "2025-2026",
+        "Bets": 26,
+        "PL": 4.28,
+        "SR": 80.77,
+        "ROI": 16.46
+      }
+    ]
+  }
+]
