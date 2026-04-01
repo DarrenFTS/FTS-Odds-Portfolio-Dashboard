@@ -30,12 +30,19 @@ from models.enhanced_daily_selector import EnhancedDailySelector as DailyBetSele
 from models.value_calculator import ValueCalculator
 from models.monte_carlo_simulator import MonteCarloSimulator
 
-# CRITICAL: Cached function to load portfolio stats
-@st.cache_data
-def load_portfolio_stats():
-    """Load portfolio statistics from JSON file - cached for performance"""
+# Initialize portfolio stats in session state (for database updates)
+if 'portfolio_stats' not in st.session_state:
     with open('config/portfolio_stats.json', 'r') as f:
-        return json.load(f)
+        st.session_state.portfolio_stats = json.load(f)
+
+# Function to get portfolio stats (from session state if updated, otherwise file)
+def get_portfolio_stats():
+    """Get portfolio stats from session state (updated) or file (default)"""
+    if 'portfolio_stats' in st.session_state:
+        return st.session_state.portfolio_stats
+    else:
+        with open('config/portfolio_stats.json', 'r') as f:
+            return json.load(f)
 
 # Page configuration
 st.set_page_config(
@@ -81,7 +88,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Initialize session state
-# FORCE RELOAD: Always create fresh selector (bypass cache during migration)
 st.session_state.selector = DailyBetSelector('config')
 
 if 'selections' not in st.session_state:
@@ -282,8 +288,8 @@ elif page == "📈 Performance":
     st.markdown('<div class="main-header">📈 Historical Performance</div>', unsafe_allow_html=True)
     st.markdown('<div class="sub-header">System statistics and backtesting</div>', unsafe_allow_html=True)
     
-    # Load stats using cached function
-    portfolio = load_portfolio_stats()
+    # Load stats using session state function
+    portfolio = get_portfolio_stats()
     
     stats_data = []
     for key, stat in portfolio['stats'].items():
@@ -355,8 +361,8 @@ elif page == "⚙️ System Config":
     
     with col2:
         st.markdown("### Performance")
-        # Load stats using cached function
-        stats = load_portfolio_stats()
+        # Load stats using session state function
+        stats = get_portfolio_stats()
         
         system_stats = [
             v for k, v in stats['stats'].items() 
@@ -390,8 +396,8 @@ elif page == "🎲 Monte Carlo":
     st.markdown('<div class="main-header">🎲 Monte Carlo Analysis</div>', unsafe_allow_html=True)
     st.markdown('<div class="sub-header">Run 1,000+ simulations to analyze true ROI, drawdowns, and risk</div>', unsafe_allow_html=True)
     
-    # Load portfolio stats using cached function
-    portfolio_stats_mc = load_portfolio_stats()
+    # Load portfolio stats using session state function
+    portfolio_stats_mc = get_portfolio_stats()
     
     # Create tabs
     tab1, tab2 = st.tabs(["🎯 Single System", "📊 Full Portfolio"])
@@ -673,8 +679,9 @@ elif page == "📥 Database Upload":
     if uploaded_db is not None:
         st.info(f"📁 File uploaded: {uploaded_db.name} ({uploaded_db.size:,} bytes)")
         
-        if st.button("🔄 Process and Update Database", type="primary"):
-            with st.spinner("Processing historical database... This may take a minute..."):
+        # SINGLE BUTTON - No nested buttons!
+        if st.button("🔄 Process Database and Update All Statistics", type="primary"):
+            with st.spinner("Processing historical database and recalculating statistics... This may take 1-2 minutes..."):
                 try:
                     # Save file
                     db_file = Path("data/historical_matches.xlsx")
@@ -704,46 +711,46 @@ elif page == "📥 Database Upload":
                     st.dataframe(historical.head()[available_cols], use_container_width=True)
                     
                     st.markdown("---")
+                    st.markdown("### Recalculating System Statistics...")
                     
-                    # Process button
-                    if st.button("✅ Confirm and Recalculate All Statistics"):
-                        with st.spinner("Recalculating system statistics from historical data..."):
-                            try:
-                                from models.database_processor import DatabaseProcessor
-                                
-                                processor = DatabaseProcessor('config')
-                                stats = processor.update_from_database(str(db_file))
-                                
-                                st.success("✅ Database processed and statistics updated!")
-                                st.balloons()
-                                
-                                st.markdown("### Updated Statistics Summary")
-                                st.write(f"Total configurations: {len(stats['stats'])}")
-                                st.write(f"Max ROI: {stats['max_roi']:.2f}%")
-                                st.write(f"Total bets: {sum(s['total_bets'] for s in stats['stats'].values()):,}")
-                                
-                                # CRITICAL: Clear the cached portfolio stats function
-                                load_portfolio_stats.clear()
-                                
-                                # Reinitialize selector with new data
-                                st.session_state.selector = DailyBetSelector('config')
-                                
-                                # Clear all other cached data
-                                st.cache_data.clear()
-                                
-                                # Clear monte carlo results
-                                if 'monte_carlo_results' in st.session_state:
-                                    st.session_state.monte_carlo_results = None
-                                
-                                st.info("🔄 Refreshing all tabs with updated data...")
-                                st.rerun()
-                                
-                            except Exception as e:
-                                st.error(f"Error processing database: {str(e)}")
-                                st.exception(e)
-                
+                    # Process database immediately (no second button)
+                    from models.database_processor import DatabaseProcessor
+                    
+                    processor = DatabaseProcessor('config')
+                    stats = processor.update_from_database(str(db_file))
+                    
+                    # CRITICAL: Store in session state (Streamlit Cloud compatible)
+                    st.session_state.portfolio_stats = stats
+                    
+                    # Try to save to file (may fail on read-only filesystem - that's OK)
+                    try:
+                        with open('config/portfolio_stats.json', 'w') as f:
+                            json.dump(stats, f, indent=2)
+                    except:
+                        pass  # Silently ignore if filesystem is read-only
+                    
+                    st.success("✅ Database processed and statistics updated!")
+                    st.balloons()
+                    
+                    st.markdown("### Updated Statistics Summary")
+                    st.write(f"Total configurations: {len(stats['stats'])}")
+                    st.write(f"Max ROI: {stats['max_roi']:.2f}%")
+                    st.write(f"Total bets: {sum(s['total_bets'] for s in stats['stats'].values()):,}")
+                    
+                    # Reinitialize selector with new data
+                    st.session_state.selector = DailyBetSelector('config')
+                    
+                    # Clear monte carlo results
+                    if 'monte_carlo_results' in st.session_state:
+                        st.session_state.monte_carlo_results = None
+                    
+                    st.info("🔄 Refreshing all tabs with updated data...")
+                    
+                    # Force rerun
+                    st.rerun()
+                    
                 except Exception as e:
-                    st.error(f"❌ Error loading database: {str(e)}")
+                    st.error(f"❌ Error processing database: {str(e)}")
                     st.exception(e)
 
 # Footer
