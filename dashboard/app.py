@@ -699,12 +699,12 @@ elif page == "📥 Database Upload":
                     # Drop any unnamed/blank columns
                     historical = historical.loc[:, ~historical.columns.str.contains('^Unnamed')]
                     
-                    # CRITICAL: Standardize column names
+                    # CRITICAL: Standardize column names based on actual file structure
                     column_mapping = {
-                        'Full Time Result': 'FTR',
-                        'Full Time Home Goals': 'FTHG',
-                        'Full Time Away Goals': 'FTAG',
-                        'Competition': 'League'
+                        'Competition': 'League',
+                        'FT1X2': 'FTR',          # Full Time Result (H/D/A)
+                        'FT Home': 'FTHG',       # Full Time Home Goals
+                        'FT Away': 'FTAG'        # Full Time Away Goals
                     }
                     
                     for old_name, new_name in column_mapping.items():
