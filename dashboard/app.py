@@ -30,6 +30,13 @@ from models.enhanced_daily_selector import EnhancedDailySelector as DailyBetSele
 from models.value_calculator import ValueCalculator
 from models.monte_carlo_simulator import MonteCarloSimulator
 
+# CRITICAL: Cached function to load portfolio stats
+@st.cache_data
+def load_portfolio_stats():
+    """Load portfolio statistics from JSON file - cached for performance"""
+    with open('config/portfolio_stats.json', 'r') as f:
+        return json.load(f)
+
 # Page configuration
 st.set_page_config(
     page_title="Football Betting Model",
@@ -218,16 +225,16 @@ if page == "📊 Daily Selections":
             # Determine color based on value score
             score = bet['Value Score']
             if score >= 70:
-                conf_class = "high-confidence"  # Dark green
+                conf_class = "high-confidence"
                 conf_icon = "⭐"
             elif score >= 60:
-                conf_class = "high-confidence"  # Light green
+                conf_class = "high-confidence"
                 conf_icon = "🟢"
             elif score >= 50:
-                conf_class = "speculative"  # Yellow
+                conf_class = "speculative"
                 conf_icon = "🟡"
             else:
-                conf_class = "speculative"  # Red
+                conf_class = "speculative"
                 conf_icon = "🔴"
             
             with st.container():
@@ -244,8 +251,6 @@ if page == "📊 Daily Selections":
                     st.caption(f"Odds: {bet['Odds']:.2f} (Range: {bet['Odds Range']})")
                     if bet.get('Expected Value %'):
                         st.caption(f"EV: {bet['Expected Value %']:+.1f}%")
-                    if bet.get('Filter Status'):
-                        st.caption(bet['Filter Status'])
                     if bet.get('Filter Status'):
                         st.caption(bet['Filter Status'])
                 
@@ -273,75 +278,12 @@ if page == "📊 Daily Selections":
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 )
 
-elif page == "⚙️ System Config":
-    st.markdown('<div class="main-header">⚙️ System Configuration</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">View and manage betting systems</div>', unsafe_allow_html=True)
-    
-    # Load configuration
-    import json
-    with open('config/systems_config.json', 'r') as f:
-        config = json.load(f)
-    
-    # Select system
-    system_name = st.selectbox(
-        "Select System",
-        options=list(config.keys())
-    )
-    
-    system_config = config[system_name]
-    
-    # Display system info
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("### System Details")
-        st.write(f"**Market:** {system_config['market_column']}")
-        st.write(f"**Has Filter:** {system_config['has_filter']}")
-        if system_config['has_filter']:
-            st.write(f"**Filter:** {system_config['filter_condition']}")
-        st.write(f"**Configurations:** {len(system_config['configurations'])}")
-    
-    with col2:
-        st.markdown("### Performance")
-        # Load stats
-        with open('config/portfolio_stats.json', 'r') as f:
-            stats = json.load(f)
-        
-        system_stats = [
-            v for k, v in stats['stats'].items() 
-            if v['system'] == system_name
-        ]
-        
-        if system_stats:
-            avg_roi = sum(s['roi'] for s in system_stats) / len(system_stats)
-            total_bets = sum(s['total_bets'] for s in system_stats)
-            total_profit = sum(s['profit'] for s in system_stats)
-            
-            st.metric("Average ROI", f"{avg_roi:.2f}%")
-            st.metric("Total Bets", total_bets)
-            st.metric("Total Profit", f"{total_profit:.2f} units")
-    
-    # Show configurations table
-    st.markdown("### League Configurations")
-    
-    config_df = pd.DataFrame(system_config['configurations'])
-    config_df = config_df.rename(columns={
-        'league': 'League',
-        'exact_min': 'Exact Min',
-        'exact_max': 'Exact Max',
-        'buffer_min': 'Buffer Min',
-        'buffer_max': 'Buffer Max'
-    })
-    
-    st.dataframe(config_df, use_container_width=True)
-
 elif page == "📈 Performance":
     st.markdown('<div class="main-header">📈 Historical Performance</div>', unsafe_allow_html=True)
     st.markdown('<div class="sub-header">System statistics and backtesting</div>', unsafe_allow_html=True)
     
-    # Load stats
-    with open('config/portfolio_stats.json', 'r') as f:
-        portfolio = json.load(f)
+    # Load stats using cached function
+    portfolio = load_portfolio_stats()
     
     stats_data = []
     for key, stat in portfolio['stats'].items():
@@ -384,14 +326,72 @@ elif page == "📈 Performance":
     
     st.dataframe(display_df, use_container_width=True, height=600)
 
+elif page == "⚙️ System Config":
+    st.markdown('<div class="main-header">⚙️ System Configuration</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sub-header">View and manage betting systems</div>', unsafe_allow_html=True)
+    
+    # Load configuration
+    with open('config/systems_config.json', 'r') as f:
+        config = json.load(f)
+    
+    # Select system
+    system_name = st.selectbox(
+        "Select System",
+        options=list(config.keys())
+    )
+    
+    system_config = config[system_name]
+    
+    # Display system info
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("### System Details")
+        st.write(f"**Market:** {system_config['market_column']}")
+        st.write(f"**Has Filter:** {system_config['has_filter']}")
+        if system_config['has_filter']:
+            st.write(f"**Filter:** {system_config['filter_condition']}")
+        st.write(f"**Configurations:** {len(system_config['configurations'])}")
+    
+    with col2:
+        st.markdown("### Performance")
+        # Load stats using cached function
+        stats = load_portfolio_stats()
+        
+        system_stats = [
+            v for k, v in stats['stats'].items() 
+            if v['system'] == system_name
+        ]
+        
+        if system_stats:
+            avg_roi = sum(s['roi'] for s in system_stats) / len(system_stats)
+            total_bets = sum(s['total_bets'] for s in system_stats)
+            total_profit = sum(s['profit'] for s in system_stats)
+            
+            st.metric("Average ROI", f"{avg_roi:.2f}%")
+            st.metric("Total Bets", total_bets)
+            st.metric("Total Profit", f"{total_profit:.2f} units")
+    
+    # Show configurations table
+    st.markdown("### League Configurations")
+    
+    config_df = pd.DataFrame(system_config['configurations'])
+    config_df = config_df.rename(columns={
+        'league': 'League',
+        'exact_min': 'Exact Min',
+        'exact_max': 'Exact Max',
+        'buffer_min': 'Buffer Min',
+        'buffer_max': 'Buffer Max'
+    })
+    
+    st.dataframe(config_df, use_container_width=True)
+
 elif page == "🎲 Monte Carlo":
     st.markdown('<div class="main-header">🎲 Monte Carlo Analysis</div>', unsafe_allow_html=True)
     st.markdown('<div class="sub-header">Run 1,000+ simulations to analyze true ROI, drawdowns, and risk</div>', unsafe_allow_html=True)
     
-    # Load portfolio stats
-    with open('config/portfolio_stats.json', 'r') as f:
-        import json
-        portfolio_stats_mc = json.load(f)
+    # Load portfolio stats using cached function
+    portfolio_stats_mc = load_portfolio_stats()
     
     # Create tabs
     tab1, tab2 = st.tabs(["🎯 Single System", "📊 Full Portfolio"])
@@ -722,10 +722,13 @@ elif page == "📥 Database Upload":
                                 st.write(f"Max ROI: {stats['max_roi']:.2f}%")
                                 st.write(f"Total bets: {sum(s['total_bets'] for s in stats['stats'].values()):,}")
                                 
-                                # CRITICAL: Reinitialize selector with new data
+                                # CRITICAL: Clear the cached portfolio stats function
+                                load_portfolio_stats.clear()
+                                
+                                # Reinitialize selector with new data
                                 st.session_state.selector = DailyBetSelector('config')
                                 
-                                # Clear all cached data
+                                # Clear all other cached data
                                 st.cache_data.clear()
                                 
                                 # Clear monte carlo results
@@ -742,68 +745,6 @@ elif page == "📥 Database Upload":
                 except Exception as e:
                     st.error(f"❌ Error loading database: {str(e)}")
                     st.exception(e)
-
-elif page == "⚙️ System Config":
-    st.markdown('<div class="main-header">⚙️ System Configuration</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">View and manage betting systems</div>', unsafe_allow_html=True)
-    
-    # Load configuration
-    with open('config/systems_config.json', 'r') as f:
-        config = json.load(f)
-    
-    # Select system
-    system_name = st.selectbox(
-        "Select System",
-        options=list(config.keys())
-    )
-    
-    system_config = config[system_name]
-    
-    # Display system info
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("### System Details")
-        st.write(f"**Market:** {system_config['market_column']}")
-        st.write(f"**Has Filter:** {system_config['has_filter']}")
-        if system_config['has_filter']:
-            st.write(f"**Filter:** {system_config['filter_condition']}")
-        st.write(f"**Configurations:** {len(system_config['configurations'])}")
-    
-    with col2:
-        st.markdown("### Performance")
-        # Load portfolio stats
-        with open('config/portfolio_stats.json', 'r') as f:
-            portfolio_stats_config = json.load(f)
-        
-        # Get stats for this system
-        system_stats = [
-            v for k, v in portfolio_stats_config['stats'].items() 
-            if k.startswith(system_name)
-        ]
-        
-        if system_stats:
-            avg_roi = sum(s['roi'] for s in system_stats) / len(system_stats)
-            total_bets = sum(s['total_bets'] for s in system_stats)
-            total_profit = sum(s['profit'] for s in system_stats)
-            
-            st.metric("Average ROI", f"{avg_roi:.2f}%")
-            st.metric("Total Bets", f"{total_bets:,}")
-            st.metric("Total Profit", f"+{total_profit:.2f} units")
-    
-    # Show configurations table
-    st.markdown("### League Configurations")
-    
-    config_df = pd.DataFrame(system_config['configurations'])
-    config_df = config_df.rename(columns={
-        'league': 'League',
-        'exact_min': 'Exact Min',
-        'exact_max': 'Exact Max',
-        'buffer_min': 'Buffer Min',
-        'buffer_max': 'Buffer Max'
-    })
-    
-    st.dataframe(config_df, use_container_width=True, height=600)
 
 # Footer
 st.markdown("---")
