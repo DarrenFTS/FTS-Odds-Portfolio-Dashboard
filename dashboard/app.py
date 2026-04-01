@@ -741,8 +741,22 @@ elif page == "📥 Database Upload":
                     
                     # Try to save to file (may fail on read-only filesystem - that's OK)
                     try:
+                        # Replace NaN and Infinity with None before saving
+                        import math
+                        def clean_for_json(obj):
+                            if isinstance(obj, dict):
+                                return {k: clean_for_json(v) for k, v in obj.items()}
+                            elif isinstance(obj, list):
+                                return [clean_for_json(item) for item in obj]
+                            elif isinstance(obj, float):
+                                if math.isnan(obj) or math.isinf(obj):
+                                    return None
+                                return obj
+                            return obj
+                        
+                        clean_stats = clean_for_json(stats)
                         with open('config/portfolio_stats.json', 'w') as f:
-                            json.dump(stats, f, indent=2)
+                            json.dump(clean_stats, f, indent=2)
                     except:
                         pass  # Silently ignore if filesystem is read-only
                     
@@ -754,16 +768,14 @@ elif page == "📥 Database Upload":
                     st.write(f"Max ROI: {stats['max_roi']:.2f}%")
                     st.write(f"Total bets: {sum(s['total_bets'] for s in stats['stats'].values()):,}")
                     
-                    # Reinitialize selector with new data
-                    st.session_state.selector = DailyBetSelector('config')
-                    
-                    # Clear monte carlo results
+                    # Clear monte carlo results so they'll be recalculated with new data
                     if 'monte_carlo_results' in st.session_state:
                         st.session_state.monte_carlo_results = None
                     
-                    st.info("🔄 Refreshing all tabs with updated data...")
+                    st.info("🔄 Statistics updated! Navigate to other tabs to see the new data.")
                     
-                    # Force rerun
+                    # Force rerun to refresh the page
+                    st.rerun()
                     st.rerun()
                     
                 except Exception as e:
