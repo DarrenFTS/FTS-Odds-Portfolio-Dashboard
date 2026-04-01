@@ -721,7 +721,11 @@ elif page == "📥 Database Upload":
                                 st.write(f"Total configurations: {len(stats['stats'])}")
                                 st.write(f"Max ROI: {stats['max_roi']:.2f}%")
                                 st.write(f"Total bets: {sum(s['total_bets'] for s in stats['stats'].values()):,}")
-                                
+                                st.cache_data.clear()
+                                st.info("🔄 Refreshing all tabs with updated data...")
+                                st.rerun()
+                                ```
+                            
                             except Exception as e:
                                 st.error(f"Error processing database: {str(e)}")
                                 st.exception(e)
