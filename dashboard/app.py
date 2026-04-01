@@ -693,21 +693,28 @@ elif page == "📥 Database Upload":
                     # Load and validate
                     historical = pd.read_excel(db_file, header=1, engine='openpyxl')
                     
+                    # CRITICAL: Standardize column names
+                    column_mapping = {
+                        'Full Time Result': 'FTR',
+                        'Full Time Home Goals': 'FTHG',
+                        'Full Time Away Goals': 'FTAG',
+                        'Competition': 'League'
+                    }
+                    
+                    for old_name, new_name in column_mapping.items():
+                        if old_name in historical.columns:
+                            historical = historical.rename(columns={old_name: new_name})
+                    
+                    # Re-save with standardized column names
+                    historical.to_excel(db_file, index=False)
+                    
                     st.success(f"✅ Loaded {len(historical):,} historical matches")
                     
                     # Show sample
                     st.markdown("#### Sample Data (First 5 Rows)")
-                    sample_cols = ['Date', 'Competition', 'Home Team', 'Away Team', 'FTR', 'FTHG', 'FTAG']
+                    sample_cols = ['Date', 'League', 'Home Team', 'Away Team', 'FTR', 'FTHG', 'FTAG']
                     
-                    # Handle League vs Competition column
-                    if 'Competition' in historical.columns:
-                        display_cols = sample_cols
-                    elif 'League' in historical.columns:
-                        display_cols = [col.replace('Competition', 'League') if col == 'Competition' else col for col in sample_cols]
-                    else:
-                        display_cols = [col for col in sample_cols if col in historical.columns]
-                    
-                    available_cols = [col for col in display_cols if col in historical.columns]
+                    available_cols = [col for col in sample_cols if col in historical.columns]
                     st.dataframe(historical.head()[available_cols], use_container_width=True)
                     
                     st.markdown("---")
