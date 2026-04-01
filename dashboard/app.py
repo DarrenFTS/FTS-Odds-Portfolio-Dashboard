@@ -693,15 +693,18 @@ elif page == "📥 Database Upload":
                     # Load and validate
                     historical = pd.read_excel(db_file, header=1, engine='openpyxl')
                     
+                    # Drop any completely blank columns
+                    historical = historical.dropna(axis=1, how='all')
+                    
+                    # Drop any unnamed/blank columns
+                    historical = historical.loc[:, ~historical.columns.str.contains('^Unnamed')]
+                    
                     # CRITICAL: Standardize column names
                     column_mapping = {
                         'Full Time Result': 'FTR',
                         'Full Time Home Goals': 'FTHG',
                         'Full Time Away Goals': 'FTAG',
-                        'Competition': 'League',
-                        'Kick Off': 'Date',
-                        'Kick-off': 'Date',
-                        'Match Date': 'Date'
+                        'Competition': 'League'
                     }
                     
                     for old_name, new_name in column_mapping.items():
