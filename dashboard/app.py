@@ -724,7 +724,6 @@ elif page == "📥 Database Upload":
                                 st.cache_data.clear()
                                 st.info("🔄 Refreshing all tabs with updated data...")
                                 st.rerun()
-                                ```
                             
                             except Exception as e:
                                 st.error(f"Error processing database: {str(e)}")
