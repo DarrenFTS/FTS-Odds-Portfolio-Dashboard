@@ -760,8 +760,124 @@ elif page == "📥 Database Upload":
                     # First, ensure the DataFrame has the right format
                     historical['Date'] = pd.to_datetime(historical['Date'], errors='coerce')
                     
-                    # Process all systems
-                    stats = processor.process_all_systems(historical)
+                    # CRITICAL: Calculate stats with correct LAY/BACK profit logic
+                    # We need to override the processor's calculate_system_stats method
+                    
+                    import numpy as np
+                    
+                    def calculate_system_stats_correct(processor, historical_df, system_name, system_config):
+                        """Calculate stats with CORRECT LAY/BACK profit logic"""
+                        market_col = system_config['market_column']
+                        has_filter = system_config['has_filter']
+                        filter_col = system_config.get('filter_column')
+                        filter_condition = system_config.get('filter_condition')
+                        
+                        # Determine if this is a LAY system
+                        is_lay = 'Lay' in system_name
+                        
+                        all_stats = {}
+                        
+                        for config in system_config['configurations']:
+                            league = config['league']
+                            min_odds = config['exact_min']
+                            max_odds = config['exact_max']
+                            
+                            # Filter by league
+                            league_df = historical_df[historical_df['League'] == league].copy()
+                            
+                            if len(league_df) == 0:
+                                continue
+                            
+                            if market_col not in league_df.columns:
+                                continue
+                            
+                            # Filter by odds range
+                            bets_df = league_df[
+                                (league_df[market_col] >= min_odds) & 
+                                (league_df[market_col] <= max_odds)
+                            ].copy()
+                            
+                            if len(bets_df) < 30:  # Minimum threshold
+                                continue
+                            
+                            # Apply filter if needed
+                            if has_filter and filter_col and filter_condition:
+                                if filter_col in bets_df.columns:
+                                    if '>' in filter_condition:
+                                        threshold = float(filter_condition.split('>')[1].strip())
+                                        bets_df = bets_df[bets_df[filter_col] > threshold]
+                            
+                            # Calculate wins based on system type
+                            if system_name == 'Home Win':
+                                bets_df['Win'] = (bets_df['FTR'] == 'H').astype(int)
+                            elif system_name == 'O2.5 Back':
+                                bets_df['Win'] = ((bets_df['FTHG'] + bets_df['FTAG']) > 2.5).astype(int)
+                            elif system_name == 'O3.5 Lay':
+                                bets_df['Win'] = ((bets_df['FTHG'] + bets_df['FTAG']) <= 3.5).astype(int)
+                            elif system_name == 'U1.5 Lay':
+                                bets_df['Win'] = ((bets_df['FTHG'] + bets_df['FTAG']) > 1.5).astype(int)
+                            elif system_name == 'FHGU0.5 Lay':
+                                if 'HT Total Goals' in bets_df.columns:
+                                    bets_df['Win'] = (bets_df['HT Total Goals'] > 0.5).astype(int)
+                                else:
+                                    continue
+                            
+                            # CRITICAL: Calculate profit with correct LAY/BACK logic
+                            if is_lay:
+                                # LAY: Win = +1, Loss = -(odds-1)
+                                bets_df['Profit'] = bets_df.apply(
+                                    lambda row: 1.0 if row['Win'] == 1 else -(row[market_col] - 1),
+                                    axis=1
+                                )
+                            else:
+                                # BACK: Win = +(odds-1), Loss = -1
+                                bets_df['Profit'] = bets_df.apply(
+                                    lambda row: (row[market_col] - 1) if row['Win'] == 1 else -1.0,
+                                    axis=1
+                                )
+                            
+                            total_bets = len(bets_df)
+                            wins = int(bets_df['Win'].sum())
+                            total_profit = float(bets_df['Profit'].sum())
+                            strike_rate = float((wins / total_bets * 100) if total_bets > 0 else 0)
+                            roi = float((total_profit / total_bets * 100) if total_bets > 0 else 0)
+                            
+                            key = f"{system_name}|{league}"
+                            all_stats[key] = {
+                                'system': system_name,
+                                'league': league,
+                                'total_bets': total_bets,
+                                'wins': wins,
+                                'strike_rate': round(strike_rate, 2),
+                                'profit': round(total_profit, 2),
+                                'roi': round(roi, 2)
+                            }
+                        
+                        return all_stats
+                    
+                    # Process all systems with correct logic
+                    all_system_stats = {}
+                    
+                    with open('config/systems_config.json', 'r') as f:
+                        systems_config = json.load(f)
+                    
+                    for system_name, system_config in systems_config.items():
+                        system_stats = calculate_system_stats_correct(
+                            processor, 
+                            historical, 
+                            system_name, 
+                            system_config
+                        )
+                        all_system_stats.update(system_stats)
+                    
+                    # Calculate max ROI
+                    max_roi = max([s['roi'] for s in all_system_stats.values()]) if all_system_stats else 0
+                    
+                    # Create stats structure
+                    stats = {
+                        'stats': all_system_stats,
+                        'max_roi': max_roi
+                    }
                     
                     # CRITICAL: Store in session state (Streamlit Cloud compatible)
                     st.session_state.portfolio_stats = stats
