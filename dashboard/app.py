@@ -690,7 +690,7 @@ elif page == "📥 Database Upload":
                     with open(db_file, "wb") as f:
                         f.write(uploaded_db.getbuffer())
                     
-                    # Load and validate
+                    # Load and validate (header is at row 1)
                     historical = pd.read_excel(db_file, header=1, engine='openpyxl')
                     
                     # Drop any completely blank columns
@@ -711,9 +711,6 @@ elif page == "📥 Database Upload":
                         if old_name in historical.columns:
                             historical = historical.rename(columns={old_name: new_name})
                     
-                    # Re-save with standardized column names
-                    historical.to_excel(db_file, index=False)
-                    
                     st.success(f"✅ Loaded {len(historical):,} historical matches")
                     
                     # Show sample
@@ -727,10 +724,17 @@ elif page == "📥 Database Upload":
                     st.markdown("### Recalculating System Statistics...")
                     
                     # Process database immediately (no second button)
+                    # Pass the DataFrame directly instead of the file path
                     from models.database_processor import DatabaseProcessor
                     
                     processor = DatabaseProcessor('config')
-                    stats = processor.update_from_database(str(db_file))
+                    
+                    # Instead of update_from_database, we'll call the processing methods directly
+                    # First, ensure the DataFrame has the right format
+                    historical['Date'] = pd.to_datetime(historical['Date'], errors='coerce')
+                    
+                    # Process all systems
+                    stats = processor.process_all_systems(historical)
                     
                     # CRITICAL: Store in session state (Streamlit Cloud compatible)
                     st.session_state.portfolio_stats = stats
