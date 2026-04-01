@@ -111,9 +111,15 @@ with st.sidebar:
     
     st.markdown("---")
     st.markdown("### Quick Stats")
+    
+    # Get current stats from session state
+    current_stats = get_portfolio_stats()
+    num_configs = len(current_stats['stats'])
+    max_roi = current_stats.get('max_roi', 57.15)
+    
     st.metric("Total Systems", "5")
-    st.metric("Configurations", "45")
-    st.metric("Max ROI", "57.15%")
+    st.metric("Configurations", num_configs)
+    st.metric("Max ROI", f"{max_roi:.2f}%")
 
 # Main content area
 if page == "📊 Daily Selections":
