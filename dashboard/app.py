@@ -722,8 +722,16 @@ elif page == "📥 Database Upload":
                                 st.write(f"Max ROI: {stats['max_roi']:.2f}%")
                                 st.write(f"Total bets: {sum(s['total_bets'] for s in stats['stats'].values()):,}")
                                 
-                                # Clear cache and refresh all tabs
+                                # CRITICAL: Reinitialize selector with new data
+                                st.session_state.selector = DailyBetSelector('config')
+                                
+                                # Clear all cached data
                                 st.cache_data.clear()
+                                
+                                # Clear monte carlo results
+                                if 'monte_carlo_results' in st.session_state:
+                                    st.session_state.monte_carlo_results = None
+                                
                                 st.info("🔄 Refreshing all tabs with updated data...")
                                 st.rerun()
                                 
@@ -804,4 +812,3 @@ st.markdown("""
     Football Betting Model v1.0 | Built with Streamlit | © 2026
 </div>
 """, unsafe_allow_html=True)
-
