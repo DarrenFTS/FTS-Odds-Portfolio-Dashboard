@@ -88,7 +88,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Initialize session state
-st.session_state.selector = DailyBetSelector('config')
+# Don't initialize selector here - it will be created when needed
+# This avoids JSON errors on startup
 
 if 'selections' not in st.session_state:
     st.session_state.selections = None
@@ -118,6 +119,14 @@ with st.sidebar:
 if page == "📊 Daily Selections":
     st.markdown('<div class="main-header">📊 Daily Betting Selections</div>', unsafe_allow_html=True)
     st.markdown('<div class="sub-header">Upload fixtures and generate today\'s bets</div>', unsafe_allow_html=True)
+    
+    # Initialize selector only when this page is accessed
+    if 'selector' not in st.session_state:
+        try:
+            st.session_state.selector = DailyBetSelector('config')
+        except json.JSONDecodeError:
+            st.error("⚠️ Portfolio stats file is corrupted. Please upload a new database to recalculate statistics.")
+            st.stop()
     
     # File upload
     col1, col2 = st.columns([2, 1])
