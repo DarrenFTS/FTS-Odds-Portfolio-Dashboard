@@ -698,7 +698,10 @@ elif page == "📥 Database Upload":
                         'Full Time Result': 'FTR',
                         'Full Time Home Goals': 'FTHG',
                         'Full Time Away Goals': 'FTAG',
-                        'Competition': 'League'
+                        'Competition': 'League',
+                        'Kick Off': 'Date',
+                        'Kick-off': 'Date',
+                        'Match Date': 'Date'
                     }
                     
                     for old_name, new_name in column_mapping.items():
