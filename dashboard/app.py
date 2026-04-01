@@ -726,6 +726,18 @@ elif page == "📥 Database Upload":
                         if old_name in historical.columns:
                             historical = historical.rename(columns={old_name: new_name})
                     
+                    # CRITICAL: Convert FTR from 1/X/2 format to H/D/A format
+                    if 'FTR' in historical.columns:
+                        ftr_mapping = {
+                            '1': 'H',  # Home win
+                            'X': 'D',  # Draw
+                            '2': 'A'   # Away win
+                        }
+                        historical['FTR'] = historical['FTR'].astype(str).map(ftr_mapping)
+                        
+                        # Verify conversion
+                        st.write(f"✅ FTR converted: {historical['FTR'].value_counts().to_dict()}")
+                    
                     st.success(f"✅ Loaded {len(historical):,} historical matches")
                     
                     # Show sample
