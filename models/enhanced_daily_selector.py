@@ -283,6 +283,20 @@ class EnhancedDailySelector:
         elif 'League' not in fixtures.columns:
             raise ValueError("No 'League' or 'Competition' column")
         
+        # ✅ FIX: Map odds columns for daily fixtures format
+        # This ensures the system can find the odds columns it expects
+        daily_fixtures_mapping = {
+            'Home Win Back': 'Home Back Odds',
+            'Over 2.5 Back': 'O2.5 Back Odds',
+            'O3.5.1': 'O3.5 Lay Odds',
+            'U1.5.1': 'U1.5 Lay Odds',
+            'FHGU0.5.1': 'FHGU0.5 Lay Odds'
+        }
+        
+        for old_name, new_name in daily_fixtures_mapping.items():
+            if old_name in fixtures.columns and new_name not in fixtures.columns:
+                fixtures[new_name] = fixtures[old_name]
+        
         return fixtures
     
     def generate_selections(self, fixtures_file, target_date=None):
