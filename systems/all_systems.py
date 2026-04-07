@@ -7,7 +7,10 @@ Individual system files (u15_lay_system.py, etc.) have bugs and should not be us
 This file creates all system instances using the correct BaseSystem implementation.
 """
 
-from systems.base_system import BaseSystem
+try:
+    from systems.base_system import BaseSystem
+except ImportError:
+    from base_system import BaseSystem
 
 
 class HomeWinSystem(BaseSystem):
