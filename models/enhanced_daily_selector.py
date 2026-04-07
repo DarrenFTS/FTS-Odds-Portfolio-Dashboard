@@ -2,7 +2,7 @@
 Enhanced Daily Bet Selector - Fully Integrated with Value Scoring
 
 QUALIFYING ODDS FEATURE:
-Value scores are now calculated using "qualifying odds" rather than current odds.
+Value scores are calculated using "qualifying odds" rather than current odds.
 For bets in the buffer zone:
 - If current odds are BELOW exact range: Use exact_min (entry point when rising)
 - If current odds are ABOVE exact range: Use exact_max (entry point when falling)
@@ -10,6 +10,13 @@ For bets in the buffer zone:
 
 This ensures value scores represent the actual value at the point where bets qualify,
 not misleading scores from buffer zone odds.
+
+CRITICAL FIXES INCLUDED:
+1. Strict buffer range validation - bets outside buffer_max are REJECTED
+2. Daily fixtures column mapping - handles both file formats
+3. Proper LAY/BACK bet type detection
+4. Value score calculation with qualifying odds
+5. Only shows bets with Value Score 50+ (configurable)
 
 This version includes ALL value scoring logic built-in.
 No external dependencies on value_scoring.py needed.
@@ -248,7 +255,7 @@ class EnhancedDailySelector:
         }
     
     def load_fixtures(self, fixtures_file, target_date=None):
-        """Load daily fixtures"""
+        """Load daily fixtures with automatic column mapping"""
         
         try:
             fixtures = pd.read_excel(fixtures_file, header=1, engine='openpyxl')
@@ -283,8 +290,8 @@ class EnhancedDailySelector:
         elif 'League' not in fixtures.columns:
             raise ValueError("No 'League' or 'Competition' column")
         
-        # ✅ FIX: Map odds columns for daily fixtures format
-        # This ensures the system can find the odds columns it expects
+        # ✅ CRITICAL FIX: Map odds columns for daily fixtures format
+        # This handles files exported from FTS which use different column names
         daily_fixtures_mapping = {
             'Home Win Back': 'Home Back Odds',
             'Over 2.5 Back': 'O2.5 Back Odds',
@@ -300,7 +307,7 @@ class EnhancedDailySelector:
         return fixtures
     
     def generate_selections(self, fixtures_file, target_date=None):
-        """Generate selections with value scoring"""
+        """Generate selections with value scoring and strict validation"""
         
         fixtures = self.load_fixtures(fixtures_file, target_date)
         
@@ -310,6 +317,11 @@ class EnhancedDailySelector:
         all_bets = []
         
         # Scan with each system
+        # NOTE: The systems/base_system.py already validates buffer ranges
+        # Any bet returned from system.scan_fixtures() has already passed:
+        # - Buffer range validation (buffer_min <= odds <= buffer_max)
+        # - Filter validation (for O2.5 Back)
+        # - League configuration check
         for system_name, system in self.systems.items():
             signals = system.scan_fixtures(fixtures)
             
@@ -396,9 +408,14 @@ class EnhancedDailySelector:
         # Convert to DataFrame
         bets_df = pd.DataFrame(all_bets)
         
-        # FILTER: Only show bets with Value Score 50+ (GOOD and above)
+        # ✅ VALUE SCORE FILTER: Only show bets with Value Score 50+ (GOOD and above)
         # This removes FAIR (40-49), MARGINAL (30-39), and WEAK (0-29)
-        # Includes: EXCEPTIONAL, EXCELLENT, HIGH, and GOOD
+        # Includes: EXCEPTIONAL (80+), EXCELLENT (70-79), HIGH (60-69), and GOOD (50-59)
+        # 
+        # NOTE: To see ALL qualifying bets (including FAIR 40-49), change to:
+        # bets_df = bets_df[bets_df['Value Score'] >= 40]
+        # 
+        # To remove filter completely and see ALL bets, comment out this line:
         bets_df = bets_df[bets_df['Value Score'] >= 50]
         
         if len(bets_df) == 0:
@@ -433,8 +450,7 @@ class EnhancedDailySelector:
             else:
                 return 'FFC7CE'  # Red
         
-        # Columns in requested order (simplified - no extra qualifying odds columns)
-        # Current Odds shown, but calculations use qualifying odds behind the scenes
+        # Columns in requested order
         cols = [
             'Date', 'Time', 'League', 'Home Team', 'Away Team',
             'System', 'Odds', 'Odds Range', 'Filter Status',
@@ -482,23 +498,23 @@ class EnhancedDailySelector:
                 cell.fill = PatternFill(start_color=color, end_color=color, fill_type='solid')
                 cell.alignment = Alignment(horizontal='center' if col_name in ['Value Score', 'Confidence'] else 'left', vertical='center')
         
-        # Column widths (back to original layout)
-        ws.column_dimensions['A'].width = 12  # Date
-        ws.column_dimensions['B'].width = 8   # Time
-        ws.column_dimensions['C'].width = 25  # League
-        ws.column_dimensions['D'].width = 20  # Home Team
-        ws.column_dimensions['E'].width = 20  # Away Team
-        ws.column_dimensions['F'].width = 18  # System
-        ws.column_dimensions['G'].width = 8   # Odds (current)
-        ws.column_dimensions['H'].width = 12  # Odds Range
-        ws.column_dimensions['I'].width = 25  # Filter Status
-        ws.column_dimensions['J'].width = 12  # Value Score
-        ws.column_dimensions['K'].width = 14  # Expected Value %
-        ws.column_dimensions['L'].width = 15  # Confidence
-        ws.column_dimensions['M'].width = 14  # Model Probability
-        ws.column_dimensions['N'].width = 14  # Market Probability
-        ws.column_dimensions['O'].width = 14  # Historical ROI %
-        ws.column_dimensions['P'].width = 12  # Sample Size
-        ws.column_dimensions['Q'].width = 40  # Interpretation
+        # Column widths
+        ws.column_dimensions['A'].width = 12
+        ws.column_dimensions['B'].width = 8
+        ws.column_dimensions['C'].width = 25
+        ws.column_dimensions['D'].width = 20
+        ws.column_dimensions['E'].width = 20
+        ws.column_dimensions['F'].width = 18
+        ws.column_dimensions['G'].width = 8
+        ws.column_dimensions['H'].width = 12
+        ws.column_dimensions['I'].width = 25
+        ws.column_dimensions['J'].width = 12
+        ws.column_dimensions['K'].width = 14
+        ws.column_dimensions['L'].width = 15
+        ws.column_dimensions['M'].width = 14
+        ws.column_dimensions['N'].width = 14
+        ws.column_dimensions['O'].width = 14
+        ws.column_dimensions['P'].width = 12
+        ws.column_dimensions['Q'].width = 40
         
         wb.save(output_file)
