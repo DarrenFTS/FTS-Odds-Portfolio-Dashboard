@@ -108,17 +108,46 @@ class BaseSystem:
         if not self.has_filter:
             return True, False
         
+        # Handle legacy string format: "Home Back Odds > 2.00"
+        if isinstance(self.filter_condition, str):
+            # Parse the string format
+            if '>' in self.filter_condition:
+                parts = self.filter_condition.split('>')
+                filter_col = parts[0].strip()
+                threshold = float(parts[1].strip())
+                operator = '>'
+            elif '>=' in self.filter_condition:
+                parts = self.filter_condition.split('>=')
+                filter_col = parts[0].strip()
+                threshold = float(parts[1].strip())
+                operator = '>='
+            elif '<' in self.filter_condition:
+                parts = self.filter_condition.split('<')
+                filter_col = parts[0].strip()
+                threshold = float(parts[1].strip())
+                operator = '<'
+            elif '<=' in self.filter_condition:
+                parts = self.filter_condition.split('<=')
+                filter_col = parts[0].strip()
+                threshold = float(parts[1].strip())
+                operator = '<='
+            else:
+                return False, False
+        # Handle dict format: {"column": "Home Back Odds", "operator": ">", "value": 2.00}
+        elif isinstance(self.filter_condition, dict):
+            filter_col = self.filter_condition['column']
+            operator = self.filter_condition['operator']
+            threshold = self.filter_condition['value']
+        else:
+            return False, False
+        
         # Get filter column value
-        filter_col = self.filter_condition['column']
         filter_value = fixture.get(filter_col)
         
         if pd.isna(filter_value) or filter_value is None:
             return False, False
         
         # Check filter condition
-        operator = self.filter_condition['operator']
-        threshold = self.filter_condition['value']
-        
         if operator == '>':
             passed = filter_value > threshold
             in_buffer = filter_value > self.filter_buffer_min if self.filter_buffer_min else False
