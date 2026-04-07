@@ -1,22 +1,23 @@
 """
 Base Betting System
 
-Abstract base class that all betting systems inherit from.
+Base class that all betting systems inherit from.
 Provides common functionality for:
 - Loading configurations
 - Checking odds ranges and buffers
 - Applying filters
 - Generating bet signals
+
+CRITICAL FIX: Strict buffer range validation to prevent bets outside configured ranges
 """
 
-from abc import ABC, abstractmethod
 import json
 from pathlib import Path
 import pandas as pd
 
 
-class BaseSystem(ABC):
-    """Abstract base class for all betting systems"""
+class BaseSystem:
+    """Base class for all betting systems"""
     
     def __init__(self, system_name, config_dir='config'):
         """
@@ -62,11 +63,34 @@ class BaseSystem(ABC):
         return None
     
     def is_in_exact_range(self, odds, config):
-        """Check if odds are in the exact range"""
+        """
+        Check if odds are in the exact range
+        
+        CRITICAL: Uses <= to ensure boundary values are included
+        """
         return config['exact_min'] <= odds <= config['exact_max']
     
     def is_in_buffer(self, odds, config):
-        """Check if odds are in the buffer zone"""
+        """
+        Check if odds are in the buffer zone (including exact range)
+        
+        CRITICAL FIX: This is the key validation that prevents invalid bets
+        
+        Returns True if:
+            buffer_min <= odds <= buffer_max
+        
+        Returns False if:
+            odds < buffer_min OR odds > buffer_max
+        
+        Examples:
+            buffer_min=4.00, buffer_max=5.10
+            - odds=4.00 -> True (at minimum)
+            - odds=5.10 -> True (at maximum)
+            - odds=5.20 -> False (ABOVE maximum)
+            - odds=3.90 -> False (BELOW minimum)
+        """
+        # CRITICAL: Must use <= for both comparisons
+        # Using < would allow 5.20 to slip through when max is 5.10
         return config['buffer_min'] <= odds <= config['buffer_max']
     
     def check_filter(self, fixture):
@@ -78,31 +102,45 @@ class BaseSystem(ABC):
             
         Returns:
             tuple: (passed, in_buffer)
-                passed: True if filter passed exactly
-                in_buffer: True if in filter buffer zone
+                passed: True if filter fully passed
+                in_buffer: True if filter in buffer zone
         """
         if not self.has_filter:
             return True, False
         
-        # O2.5 Back filter: Home odds must be > 2.00
-        if self.system_name == 'O2.5 Back':
-            home_odds = fixture.get('Home Back Odds', 0)
-            
-            # Exclude if below buffer minimum
-            if home_odds < self.filter_buffer_min:
-                return False, False
-            
-            # Check exact filter
-            if home_odds >= 2.00:
-                return True, False  # Passed exactly
-            else:  # 1.80 <= home_odds < 2.00
-                return False, True  # In buffer zone
+        # Get filter column value
+        filter_col = self.filter_condition['column']
+        filter_value = fixture.get(filter_col)
         
-        return True, False
+        if pd.isna(filter_value) or filter_value is None:
+            return False, False
+        
+        # Check filter condition
+        operator = self.filter_condition['operator']
+        threshold = self.filter_condition['value']
+        
+        if operator == '>':
+            passed = filter_value > threshold
+            in_buffer = filter_value > self.filter_buffer_min if self.filter_buffer_min else False
+        elif operator == '>=':
+            passed = filter_value >= threshold
+            in_buffer = filter_value >= self.filter_buffer_min if self.filter_buffer_min else False
+        elif operator == '<':
+            passed = filter_value < threshold
+            in_buffer = filter_value < self.filter_buffer_min if self.filter_buffer_min else False
+        elif operator == '<=':
+            passed = filter_value <= threshold
+            in_buffer = filter_value <= self.filter_buffer_min if self.filter_buffer_min else False
+        else:
+            return False, False
+        
+        return passed, in_buffer
     
     def check_criteria(self, fixture):
         """
         Check if fixture meets all criteria for this system
+        
+        CRITICAL: This method enforces buffer range validation
         
         Args:
             fixture: Series or dict with fixture data
@@ -125,8 +163,10 @@ class BaseSystem(ABC):
         if pd.isna(odds) or odds is None:
             return False, None, f"Missing odds for {self.market_column}"
         
-        # Check if in buffer (exact range or buffer zone)
+        # CRITICAL VALIDATION: Check if in buffer (exact range or buffer zone)
+        # This is the main protection against invalid bets
         if not self.is_in_buffer(odds, config):
+            # This rejection is CRITICAL - it prevents bets outside buffer range
             return False, None, f"Odds {odds:.2f} outside buffer {config['buffer_min']:.2f}-{config['buffer_max']:.2f}"
         
         # Check filter if applicable
@@ -178,28 +218,34 @@ class BaseSystem(ABC):
             'time': fixture.get('Time'),
             'odds': odds,
             'odds_range': f"{config['exact_min']:.2f}-{config['exact_max']:.2f}",
+            'buffer_range': f"{config['buffer_min']:.2f}-{config['buffer_max']:.2f}",
             'in_exact_range': self.is_in_exact_range(odds, config),
-            'config': config,
             'reason': reason
         }
         
-        # Add filter info for O2.5 Back
+        # Add filter status for O2.5 Back
         if self.system_name == 'O2.5 Back':
-            home_odds = fixture.get('Home Back Odds')
-            signal['home_odds'] = home_odds
-            signal['filter_passed'], signal['filter_in_buffer'] = self.check_filter(fixture)
+            filter_passed, filter_in_buffer = self.check_filter(fixture)
+            signal['filter_passed'] = filter_passed
+            signal['filter_in_buffer'] = filter_in_buffer
+            signal['home_odds'] = fixture.get('Home Back Odds')
         
         return signal
     
     def scan_fixtures(self, fixtures_df):
         """
-        Scan a DataFrame of fixtures for qualifying bets
+        Scan all fixtures and return qualifying bets
+        
+        This method applies strict validation - any bet returned has:
+        1. Passed buffer range check (buffer_min <= odds <= buffer_max)
+        2. Passed filter check (if applicable)
+        3. Valid league configuration
         
         Args:
             fixtures_df: DataFrame with fixture data
             
         Returns:
-            list: List of bet signals
+            list: List of bet signals for qualifying fixtures
         """
         signals = []
         
@@ -210,18 +256,16 @@ class BaseSystem(ABC):
         
         return signals
     
-    @abstractmethod
-    def get_description(self):
-        """Return a description of this system"""
-        pass
-
-
-# Example usage
-if __name__ == "__main__":
-    # This is abstract - see concrete implementations in:
-    # - home_win.py
-    # - o25_back.py
-    # - o35_lay.py
-    # - u15_lay.py
-    # - fhgu05_lay.py
-    pass
+    def get_system_info(self):
+        """
+        Get information about this system
+        
+        Returns:
+            dict: System information
+        """
+        return {
+            'name': self.system_name,
+            'description': f'{self.system_name} betting system',
+            'market_column': self.market_column,
+            'has_filter': self.has_filter
+        }
