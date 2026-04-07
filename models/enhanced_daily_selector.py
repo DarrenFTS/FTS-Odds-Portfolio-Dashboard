@@ -30,8 +30,10 @@ from pathlib import Path
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 
-from models.value_calculator import ValueCalculator
-from systems.all_systems import get_system
+try:
+    from systems.all_systems import get_system
+except ImportError:
+    from all_systems import get_system
 
 
 class EnhancedDailySelector:
