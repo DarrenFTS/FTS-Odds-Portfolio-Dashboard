@@ -108,3 +108,22 @@ def get_system(system_name, config_dir='config'):
         raise ValueError(f"Unknown system: {system_name}")
     
     return systems[system_name](config_dir)
+
+
+def get_all_systems(config_dir='config'):
+    """
+    Get all system instances
+    
+    Args:
+        config_dir: Configuration directory
+        
+    Returns:
+        dict: Dictionary of system_name -> system_instance
+    """
+    return {
+        'Home Win': HomeWinSystem(config_dir),
+        'O2.5 Back': O25BackSystem(config_dir),
+        'O3.5 Lay': O35LaySystem(config_dir),
+        'U1.5 Lay': U15LaySystem(config_dir),
+        'FHGU0.5 Lay': FHGU05LaySystem(config_dir)
+    }
