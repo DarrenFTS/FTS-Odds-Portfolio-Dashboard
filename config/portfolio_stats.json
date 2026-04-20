@@ -3,453 +3,363 @@
     "Home Win|Irish Premier League": {
       "system": "Home Win",
       "league": "Irish Premier League",
-      "total_bets": 45,
+      "roi": 12.94,
+      "total_bets": 46,
       "strike_rate": 60.43,
-      "roi": 12.81,
-      "profit": 5.76,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 5.95
     },
     "Home Win|Japanese J-League": {
       "system": "Home Win",
       "league": "Japanese J-League",
-      "total_bets": 174,
+      "roi": 12.94,
+      "total_bets": 176,
       "strike_rate": 60.43,
-      "roi": 12.81,
-      "profit": 22.29,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 22.77
     },
     "Home Win|Belgian Premier League": {
       "system": "Home Win",
       "league": "Belgian Premier League",
-      "total_bets": 233,
+      "roi": 12.94,
+      "total_bets": 236,
       "strike_rate": 60.43,
-      "roi": 12.81,
-      "profit": 29.85,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 30.54
     },
     "Home Win|Scottish Premiership": {
       "system": "Home Win",
       "league": "Scottish Premiership",
-      "total_bets": 136,
+      "roi": 12.94,
+      "total_bets": 138,
       "strike_rate": 60.43,
-      "roi": 12.81,
-      "profit": 17.42,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 17.86
     },
     "Home Win|Turkish Super Lig": {
       "system": "Home Win",
       "league": "Turkish Super Lig",
-      "total_bets": 232,
+      "roi": 12.94,
+      "total_bets": 235,
       "strike_rate": 60.43,
-      "roi": 12.81,
-      "profit": 29.72,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 30.41
     },
     "Home Win|Danish Superligaen": {
       "system": "Home Win",
       "league": "Danish Superligaen",
-      "total_bets": 168,
+      "roi": 12.94,
+      "total_bets": 171,
       "strike_rate": 60.43,
-      "roi": 12.81,
-      "profit": 21.52,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 22.13
     },
     "Home Win|English League One": {
       "system": "Home Win",
       "league": "English League One",
-      "total_bets": 452,
+      "roi": 12.94,
+      "total_bets": 459,
       "strike_rate": 60.43,
-      "roi": 12.81,
-      "profit": 57.9,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 59.39
     },
     "O2.5 Back|Brazilian Serie A": {
       "system": "O2.5 Back",
       "league": "Brazilian Serie A",
-      "total_bets": 35,
+      "roi": 14.55,
+      "total_bets": 36,
       "strike_rate": 60.87,
-      "roi": 14.87,
-      "profit": 5.2,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 5.24
     },
     "O2.5 Back|Norwegian Tippeligaen": {
       "system": "O2.5 Back",
       "league": "Norwegian Tippeligaen",
-      "total_bets": 33,
+      "roi": 14.55,
+      "total_bets": 34,
       "strike_rate": 60.87,
-      "roi": 14.87,
-      "profit": 4.91,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 4.95
     },
     "O2.5 Back|Spanish Segunda Division": {
       "system": "O2.5 Back",
       "league": "Spanish Segunda Division",
-      "total_bets": 67,
+      "roi": 14.55,
+      "total_bets": 69,
       "strike_rate": 60.87,
-      "roi": 14.87,
-      "profit": 9.96,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 10.04
     },
     "O2.5 Back|Swiss Super League": {
       "system": "O2.5 Back",
       "league": "Swiss Super League",
-      "total_bets": 61,
+      "roi": 14.55,
+      "total_bets": 62,
       "strike_rate": 60.87,
-      "roi": 14.87,
-      "profit": 9.07,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 9.02
     },
     "O2.5 Back|Spanish Primera Division": {
       "system": "O2.5 Back",
       "league": "Spanish Primera Division",
-      "total_bets": 74,
+      "roi": 14.55,
+      "total_bets": 76,
       "strike_rate": 60.87,
-      "roi": 14.87,
-      "profit": 11.0,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 11.06
     },
     "O2.5 Back|Scottish Premiership": {
       "system": "O2.5 Back",
       "league": "Scottish Premiership",
-      "total_bets": 200,
+      "roi": 14.55,
+      "total_bets": 205,
       "strike_rate": 60.87,
-      "roi": 14.87,
-      "profit": 29.74,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 29.83
     },
     "O2.5 Back|German Bundesliga 2": {
       "system": "O2.5 Back",
       "league": "German Bundesliga 2",
-      "total_bets": 136,
+      "roi": 14.55,
+      "total_bets": 139,
       "strike_rate": 60.87,
-      "roi": 14.87,
-      "profit": 20.22,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 20.22
     },
     "O2.5 Back|French Ligue 2": {
       "system": "O2.5 Back",
       "league": "French Ligue 2",
-      "total_bets": 81,
+      "roi": 14.55,
+      "total_bets": 83,
       "strike_rate": 60.87,
-      "roi": 14.87,
-      "profit": 12.04,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 12.08
     },
     "O2.5 Back|Dutch Eerste Divisie": {
       "system": "O2.5 Back",
       "league": "Dutch Eerste Divisie",
-      "total_bets": 66,
+      "roi": 14.55,
+      "total_bets": 68,
       "strike_rate": 60.87,
-      "roi": 14.87,
-      "profit": 9.81,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 9.89
     },
     "O2.5 Back|English Championship": {
       "system": "O2.5 Back",
       "league": "English Championship",
-      "total_bets": 116,
+      "roi": 14.55,
+      "total_bets": 119,
       "strike_rate": 60.87,
-      "roi": 14.87,
-      "profit": 17.25,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 17.31
     },
     "O2.5 Back|Portuguese Primeira Liga": {
       "system": "O2.5 Back",
       "league": "Portuguese Primeira Liga",
-      "total_bets": 182,
+      "roi": 14.55,
+      "total_bets": 186,
       "strike_rate": 60.87,
-      "roi": 14.87,
-      "profit": 27.06,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 27.06
     },
     "O3.5 Lay|Polish Ekstraklasa": {
       "system": "O3.5 Lay",
       "league": "Polish Ekstraklasa",
-      "total_bets": 53,
+      "roi": 17.72,
+      "total_bets": 54,
       "strike_rate": 81.2,
-      "roi": 18.28,
-      "profit": 9.69,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 9.57
     },
     "O3.5 Lay|Danish Superligaen": {
       "system": "O3.5 Lay",
       "league": "Danish Superligaen",
-      "total_bets": 39,
+      "roi": 17.72,
+      "total_bets": 40,
       "strike_rate": 81.2,
-      "roi": 18.28,
-      "profit": 7.13,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 7.09
     },
     "O3.5 Lay|Irish Premier League": {
       "system": "O3.5 Lay",
       "league": "Irish Premier League",
-      "total_bets": 53,
+      "roi": 17.72,
+      "total_bets": 54,
       "strike_rate": 81.2,
-      "roi": 18.28,
-      "profit": 9.69,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 9.57
     },
     "O3.5 Lay|German Bundesliga": {
       "system": "O3.5 Lay",
       "league": "German Bundesliga",
-      "total_bets": 57,
+      "roi": 17.72,
+      "total_bets": 58,
       "strike_rate": 81.2,
-      "roi": 18.28,
-      "profit": 10.42,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 10.28
     },
     "O3.5 Lay|Japanese J-League": {
       "system": "O3.5 Lay",
       "league": "Japanese J-League",
-      "total_bets": 94,
+      "roi": 17.72,
+      "total_bets": 96,
       "strike_rate": 81.2,
-      "roi": 18.28,
-      "profit": 17.18,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 17.01
     },
     "O3.5 Lay|French Ligue 1": {
       "system": "O3.5 Lay",
       "league": "French Ligue 1",
-      "total_bets": 40,
+      "roi": 17.72,
+      "total_bets": 41,
       "strike_rate": 81.2,
-      "roi": 18.28,
-      "profit": 7.31,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 7.27
     },
     "O3.5 Lay|Austrian Bundesliga": {
       "system": "O3.5 Lay",
       "league": "Austrian Bundesliga",
-      "total_bets": 33,
+      "roi": 17.72,
+      "total_bets": 34,
       "strike_rate": 81.2,
-      "roi": 18.28,
-      "profit": 6.03,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 6.02
     },
     "O3.5 Lay|Swedish Allsvenskan": {
       "system": "O3.5 Lay",
       "league": "Swedish Allsvenskan",
-      "total_bets": 40,
+      "roi": 17.72,
+      "total_bets": 41,
       "strike_rate": 81.2,
-      "roi": 18.28,
-      "profit": 7.31,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 7.27
     },
     "O3.5 Lay|Belgian Premier League": {
       "system": "O3.5 Lay",
       "league": "Belgian Premier League",
-      "total_bets": 112,
+      "roi": 17.72,
+      "total_bets": 114,
       "strike_rate": 81.2,
-      "roi": 18.28,
-      "profit": 20.47,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 20.2
     },
     "O3.5 Lay|English Championship": {
       "system": "O3.5 Lay",
       "league": "English Championship",
-      "total_bets": 655,
+      "roi": 17.72,
+      "total_bets": 666,
       "strike_rate": 81.2,
-      "roi": 18.28,
-      "profit": 119.73,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 118.02
     },
     "O3.5 Lay|English League One": {
       "system": "O3.5 Lay",
       "league": "English League One",
-      "total_bets": 678,
+      "roi": 17.72,
+      "total_bets": 689,
       "strike_rate": 81.2,
-      "roi": 18.28,
-      "profit": 123.94,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 122.09
     },
     "U1.5 Lay|Scottish Premiership": {
       "system": "U1.5 Lay",
       "league": "Scottish Premiership",
-      "total_bets": 73,
+      "roi": 24.52,
+      "total_bets": 74,
       "strike_rate": 83.22,
-      "roi": 24.09,
-      "profit": 17.59,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 18.14
     },
     "U1.5 Lay|Swiss Super League": {
       "system": "U1.5 Lay",
       "league": "Swiss Super League",
-      "total_bets": 69,
+      "roi": 24.52,
+      "total_bets": 70,
       "strike_rate": 83.22,
-      "roi": 24.09,
-      "profit": 16.62,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 17.16
     },
     "U1.5 Lay|Irish Premier League": {
       "system": "U1.5 Lay",
       "league": "Irish Premier League",
-      "total_bets": 44,
+      "roi": 24.52,
+      "total_bets": 45,
       "strike_rate": 83.22,
-      "roi": 24.09,
-      "profit": 10.6,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 11.03
     },
     "U1.5 Lay|German Bundesliga": {
       "system": "U1.5 Lay",
       "league": "German Bundesliga",
-      "total_bets": 193,
+      "roi": 24.52,
+      "total_bets": 197,
       "strike_rate": 83.22,
-      "roi": 24.09,
-      "profit": 46.49,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 48.3
     },
     "U1.5 Lay|Polish Ekstraklasa": {
       "system": "U1.5 Lay",
       "league": "Polish Ekstraklasa",
-      "total_bets": 118,
+      "roi": 24.52,
+      "total_bets": 120,
       "strike_rate": 83.22,
-      "roi": 24.09,
-      "profit": 28.43,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 29.42
     },
     "U1.5 Lay|Danish Superligaen": {
       "system": "U1.5 Lay",
       "league": "Danish Superligaen",
-      "total_bets": 251,
+      "roi": 24.52,
+      "total_bets": 256,
       "strike_rate": 83.22,
-      "roi": 24.09,
-      "profit": 60.47,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 62.77
     },
     "U1.5 Lay|Dutch Eerste Divisie": {
       "system": "U1.5 Lay",
       "league": "Dutch Eerste Divisie",
-      "total_bets": 164,
+      "roi": 24.52,
+      "total_bets": 167,
       "strike_rate": 83.22,
-      "roi": 24.09,
-      "profit": 39.51,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 40.95
     },
     "U1.5 Lay|English Premier League": {
       "system": "U1.5 Lay",
       "league": "English Premier League",
-      "total_bets": 240,
+      "roi": 24.52,
+      "total_bets": 244,
       "strike_rate": 83.22,
-      "roi": 24.09,
-      "profit": 57.82,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 59.83
     },
     "FHGU0.5 Lay|Turkish Super Lig": {
       "system": "FHGU0.5 Lay",
       "league": "Turkish Super Lig",
-      "total_bets": 43,
+      "roi": 30.56,
+      "total_bets": 41,
       "strike_rate": 84.93,
-      "roi": 29.0,
-      "profit": 12.47,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 12.53
     },
     "FHGU0.5 Lay|Danish Superligaen": {
       "system": "FHGU0.5 Lay",
       "league": "Danish Superligaen",
-      "total_bets": 40,
+      "roi": 30.56,
+      "total_bets": 38,
       "strike_rate": 84.93,
-      "roi": 29.0,
-      "profit": 11.6,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 11.61
     },
     "FHGU0.5 Lay|German Bundesliga 2": {
       "system": "FHGU0.5 Lay",
       "league": "German Bundesliga 2",
-      "total_bets": 62,
+      "roi": 30.56,
+      "total_bets": 60,
       "strike_rate": 84.93,
-      "roi": 29.0,
-      "profit": 17.98,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 18.34
     },
     "FHGU0.5 Lay|English Championship": {
       "system": "FHGU0.5 Lay",
       "league": "English Championship",
-      "total_bets": 47,
+      "roi": 30.56,
+      "total_bets": 45,
       "strike_rate": 84.93,
-      "roi": 29.0,
-      "profit": 13.63,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 13.75
     },
     "FHGU0.5 Lay|Dutch Eredivisie": {
       "system": "FHGU0.5 Lay",
       "league": "Dutch Eredivisie",
-      "total_bets": 74,
+      "roi": 30.56,
+      "total_bets": 71,
       "strike_rate": 84.93,
-      "roi": 29.0,
-      "profit": 21.46,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 21.7
     },
     "FHGU0.5 Lay|German Bundesliga": {
       "system": "FHGU0.5 Lay",
       "league": "German Bundesliga",
-      "total_bets": 370,
+      "roi": 30.56,
+      "total_bets": 354,
       "strike_rate": 84.93,
-      "roi": 29.0,
-      "profit": 107.3,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 108.18
     },
     "FHGU0.5 Lay|Portuguese Primeira Liga": {
       "system": "FHGU0.5 Lay",
       "league": "Portuguese Primeira Liga",
-      "total_bets": 67,
+      "roi": 30.56,
+      "total_bets": 64,
       "strike_rate": 84.93,
-      "roi": 29.0,
-      "profit": 19.43,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 19.56
     },
     "FHGU0.5 Lay|Scottish Premiership": {
       "system": "FHGU0.5 Lay",
       "league": "Scottish Premiership",
-      "total_bets": 129,
+      "roi": 30.56,
+      "total_bets": 123,
       "strike_rate": 84.93,
-      "roi": 29.0,
-      "profit": 37.41,
-      "Odds_Min": 0,
-      "Odds_Max": 999
+      "profit": 37.59
     }
   },
-  "max_roi": 29.0
+  "max_roi": 30.56
 }
