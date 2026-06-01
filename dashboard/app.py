@@ -1,17 +1,6 @@
 """
-Football Betting Model - Streamlit Dashboard
-
-Main application for the web interface.
-
-Usage:
-    streamlit run dashboard/app.py
-
-Features:
-- Upload daily fixtures
-- View qualifying bets
-- Filter by confidence and system
-- Export to Excel
-- View system configurations
+FTS Odds Portfolio Dashboard
+Streamlit dashboard for the Football Trading Systems Odds Portfolio.
 """
 
 import streamlit as st
@@ -20,915 +9,316 @@ import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
 import json
-import sys
 from pathlib import Path
 
-# Add parent directory to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
-from models.enhanced_daily_selector import EnhancedDailySelector as DailyBetSelector
-from models.value_calculator import ValueCalculator
-from models.monte_carlo_simulator import MonteCarloSimulator
-
-# Initialize portfolio stats in session state (for database updates)
-if 'portfolio_stats' not in st.session_state:
-    with open('config/portfolio_stats.json', 'r') as f:
-        st.session_state.portfolio_stats = json.load(f)
-
-# Function to get portfolio stats (from session state if updated, otherwise file)
-def get_portfolio_stats():
-    """Get portfolio stats from session state (updated) or file (default)"""
-    if 'portfolio_stats' in st.session_state:
-        return st.session_state.portfolio_stats
-    else:
-        with open('config/portfolio_stats.json', 'r') as f:
-            return json.load(f)
-
-# Page configuration
+# ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Football Betting Model",
+    page_title="FTS Odds Portfolio",
     page_icon="⚽",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS
 st.markdown("""
 <style>
-    .main-header {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #366092;
-        margin-bottom: 1rem;
-    }
-    .sub-header {
-        font-size: 1.5rem;
-        color: #555;
-        margin-bottom: 2rem;
-    }
-    .high-confidence {
-        background-color: #C6EFCE;
-        padding: 10px;
-        border-radius: 5px;
-        margin: 5px 0;
-    }
-    .speculative {
-        background-color: #FFC7CE;
-        padding: 10px;
-        border-radius: 5px;
-        margin: 5px 0;
-    }
+    .block-container { padding-top: 1.5rem; }
     .metric-card {
-        background-color: #f0f2f6;
-        padding: 20px;
-        border-radius: 10px;
-        text-align: center;
+        background: linear-gradient(135deg,#1F3864,#2E75B6);
+        border-radius:10px; padding:16px; text-align:center; color:#fff;
     }
+    .metric-val  { font-size:1.8rem; font-weight:700; }
+    .metric-lbl  { font-size:0.85rem; opacity:0.85; margin-top:2px; }
+    .sys-card    { border-radius:8px; padding:12px 16px; margin-bottom:6px; }
+    div[data-testid="stMetricValue"] { font-size:1.4rem; }
 </style>
 """, unsafe_allow_html=True)
 
-# Initialize session state
-# Don't initialize selector here - it will be created when needed
-# This avoids JSON errors on startup
+# ── Load data ──────────────────────────────────────────────────────────────────
+@st.cache_data
+def load_portfolio():
+    with open("config/portfolio_stats.json") as f:
+        raw = json.load(f)
+    rows = []
+    for key, stat in raw["stats"].items():
+        rows.append({
+            "system":  stat["system"],
+            "league":  stat["league"],
+            "bets":    stat["total_bets"],
+            "sr":      stat["strike_rate"],
+            "roi":     stat["roi"],
+            "profit":  stat["profit"],
+        })
+    df = pd.DataFrame(rows)
+    return df, raw["max_roi"]
 
-if 'selections' not in st.session_state:
-    st.session_state.selections = None
+@st.cache_data
+def load_systems_config():
+    with open("config/systems_config.json") as f:
+        return json.load(f)
 
-if 'monte_carlo_results' not in st.session_state:
-    st.session_state.monte_carlo_results = None
+df_all, max_roi = load_portfolio()
+cfg = load_systems_config()
 
-# Sidebar
+# ── System-level summary ───────────────────────────────────────────────────────
+SYS_ORDER  = ["FHGU0.5 Lay","U1.5 Lay","O3.5 Lay","O2.5 Back","Home Win"]
+SYS_COLORS = {
+    "FHGU0.5 Lay": "#1F3864",
+    "U1.5 Lay":    "#2E75B6",
+    "O3.5 Lay":    "#375623",
+    "O2.5 Back":   "#7B3F00",
+    "Home Win":    "#6B2D8B",
+}
+
+summary = (
+    df_all.groupby("system")
+    .agg(bets=("bets","sum"), profit=("profit","sum"))
+    .reset_index()
+)
+summary["roi"]    = summary["profit"] / summary["bets"] * 100
+summary["sr"]     = df_all.groupby("system")["sr"].mean().values
+summary["sys_order"] = summary["system"].map({s:i for i,s in enumerate(SYS_ORDER)})
+summary = summary.sort_values("sys_order").drop("sys_order",axis=1).reset_index(drop=True)
+
+port_bets   = int(summary["bets"].sum())
+port_profit = summary["profit"].sum()
+port_roi    = port_profit / port_bets * 100
+
+# ── Sidebar ────────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.image("https://via.placeholder.com/200x100/366092/FFFFFF?text=Football+Betting", use_container_width=True)
-    st.markdown("### ⚽ Football Betting Model")
+    st.markdown("## ⚽ FTS Odds Portfolio")
     st.markdown("---")
-    
-    page = st.radio(
-        "Navigation",
-        ["📊 Daily Selections", "📈 Performance", "🎲 Monte Carlo", "📥 Database Upload", "⚙️ System Config"],
-        label_visibility="collapsed"
+    page = st.radio("Navigation", [
+        "📈 Performance",
+        "🏆 System Rankings",
+        "📋 League Breakdown",
+        "⚙️ System Config",
+    ], label_visibility="collapsed")
+    st.markdown("---")
+    st.markdown("### 📊 Portfolio Snapshot")
+    st.metric("Total Bets",   f"{port_bets:,}")
+    st.metric("Total Profit", f"+{port_profit:.2f} pts")
+    st.metric("Portfolio ROI",f"{port_roi:.2f}%")
+    st.metric("Best System ROI", f"{max_roi:.2f}%")
+
+# ══════════════════════════════════════════════════════════════════════════════
+# PAGE: PERFORMANCE
+# ══════════════════════════════════════════════════════════════════════════════
+if page == "📈 Performance":
+    st.markdown("## 📈 Portfolio Performance")
+
+    # Top KPI row
+    cols = st.columns(5)
+    for i, row in summary.iterrows():
+        with cols[i]:
+            color = SYS_COLORS.get(row["system"],"#1F3864")
+            st.markdown(f"""
+            <div class="metric-card" style="background:linear-gradient(135deg,{color},{color}cc);">
+                <div class="metric-val">{row["roi"]:+.1f}%</div>
+                <div class="metric-lbl">{row["system"]}</div>
+                <div class="metric-lbl">{int(row["bets"]):,} bets &nbsp;|&nbsp; +{row["profit"]:.1f} pts</div>
+            </div>
+            """, unsafe_allow_html=True)
+
+    st.markdown("---")
+
+    # Summary table
+    st.markdown("### System Totals")
+    tbl = summary.copy()
+    tbl["ROI %"]     = tbl["roi"].map("{:+.2f}%".format)
+    tbl["SR %"]      = tbl["sr"].map("{:.2f}%".format)
+    tbl["Profit"]    = tbl["profit"].map("{:+.2f}".format)
+    tbl["Bets"]      = tbl["bets"].map("{:,}".format)
+    tbl = tbl.rename(columns={"system":"System"})
+    st.dataframe(
+        tbl[["System","Bets","SR %","Profit","ROI %"]],
+        use_container_width=True, hide_index=True
     )
-    
+
     st.markdown("---")
-    st.markdown("### Quick Stats")
-    
-    # Get current stats from session state
-    current_stats = get_portfolio_stats()
-    num_configs = len(current_stats['stats'])
-    max_roi = current_stats.get('max_roi', 57.15)
-    
-    st.metric("Total Systems", "5")
-    st.metric("Configurations", num_configs)
-    st.metric("Max ROI", f"{max_roi:.2f}%")
 
-# Main content area
-if page == "📊 Daily Selections":
-    st.markdown('<div class="main-header">📊 Daily Betting Selections</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Upload fixtures and generate today\'s bets</div>', unsafe_allow_html=True)
-    
-    # Initialize selector only when this page is accessed
-    if 'selector' not in st.session_state:
-        try:
-            st.session_state.selector = DailyBetSelector('config')
-        except json.JSONDecodeError:
-            st.error("⚠️ Portfolio stats file is corrupted. Please upload a new database to recalculate statistics.")
-            st.stop()
-    
-    # File upload
-    col1, col2 = st.columns([2, 1])
-    
-    with col1:
-        uploaded_file = st.file_uploader(
-            "Upload Daily Fixtures (CSV or Excel)",
-            type=['csv', 'xlsx'],
-            help="Upload your daily fixtures file with odds data"
-        )
-    
-    with col2:
-        target_date = st.date_input(
-            "Target Date",
-            value=pd.Timestamp.now(),
-            help="Filter fixtures by this date"
-        )
-    
-    if uploaded_file is not None:
-        # Save uploaded file temporarily
-        if uploaded_file.name.endswith('.csv'):
-            temp_file = Path("temp_fixtures.csv")
-        else:
-            temp_file = Path("temp_fixtures.xlsx")
-        
-        with open(temp_file, "wb") as f:
-            f.write(uploaded_file.getbuffer())
-        
-        # Generate selections button
-        if st.button("🔍 Generate Selections", type="primary"):
-            with st.spinner("Scanning fixtures and calculating value scores..."):
-                try:
-                    selections = st.session_state.selector.generate_selections(
-                        str(temp_file),
-                        target_date
-                    )
-                    st.session_state.selections = selections
-                    
-                    if len(selections) > 0:
-                        st.success(f"✅ Found {len(selections)} qualifying bets!")
-                    else:
-                        st.warning("No qualifying bets found for this date.")
-                
-                except Exception as e:
-                    st.error(f"Error processing fixtures: {str(e)}")
-    
-    # Display selections if available
-    if st.session_state.selections is not None and len(st.session_state.selections) > 0:
-        selections = st.session_state.selections
-        
-        st.markdown("---")
-        
-        # Summary metrics
-        col1, col2, col3, col4 = st.columns(4)
-        
-        with col1:
-            st.markdown('<div class="metric-card">', unsafe_allow_html=True)
-            st.metric("Total Bets", len(selections))
-            st.markdown('</div>', unsafe_allow_html=True)
-        
-        with col2:
-            high_count = len(selections[selections['Value Score'] >= 60])
-            st.markdown('<div class="metric-card">', unsafe_allow_html=True)
-            st.metric("🟢 GOOD+ (50+)", high_count)
-            st.markdown('</div>', unsafe_allow_html=True)
-        
-        with col3:
-            exceptional_count = len(selections[selections['Value Score'] >= 70])
-            st.markdown('<div class="metric-card">', unsafe_allow_html=True)
-            st.metric("⭐ EXCEPTIONAL (80+)", exceptional_count)
-            st.markdown('</div>', unsafe_allow_html=True)
-        
-        with col4:
-            avg_score = selections['Value Score'].mean()
-            st.markdown('<div class="metric-card">', unsafe_allow_html=True)
-            st.metric("Avg Score", f"{avg_score:.1f}/100")
-            st.markdown('</div>', unsafe_allow_html=True)
-        
-        st.markdown("---")
-        
-        # Filters
-        st.markdown("### 🔍 Filter Bets")
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            # Get unique confidence levels from data
-            unique_confidence = selections['Confidence'].unique().tolist()
-            confidence_filter = st.multiselect(
-                "Confidence Level",
-                options=unique_confidence,
-                default=unique_confidence
-            )
-        
-        with col2:
-            system_filter = st.multiselect(
-                "System",
-                options=selections['System'].unique().tolist(),
-                default=selections['System'].unique().tolist()
-            )
-        
-        # Apply filters
-        filtered = selections[
-            (selections['Confidence'].isin(confidence_filter)) &
-            (selections['System'].isin(system_filter))
-        ]
-        
-        st.markdown(f"### 📋 Showing {len(filtered)} Bets")
-        
-        # Display bets
-        for idx, (_, bet) in enumerate(filtered.iterrows(), 1):
-            # Determine color based on value score
-            score = bet['Value Score']
-            if score >= 70:
-                conf_class = "high-confidence"
-                conf_icon = "⭐"
-            elif score >= 60:
-                conf_class = "high-confidence"
-                conf_icon = "🟢"
-            elif score >= 50:
-                conf_class = "speculative"
-                conf_icon = "🟡"
-            else:
-                conf_class = "speculative"
-                conf_icon = "🔴"
-            
-            with st.container():
-                st.markdown(f'<div class="{conf_class}">', unsafe_allow_html=True)
-                
-                col1, col2, col3 = st.columns([3, 2, 1])
-                
-                with col1:
-                    st.markdown(f"**{idx}. {bet['Home Team']} vs {bet['Away Team']}**")
-                    st.caption(f"{bet['League']} • {bet['Time']}")
-                
-                with col2:
-                    st.markdown(f"**{bet['System']}**")
-                    st.caption(f"Odds: {bet['Odds']:.2f} (Range: {bet['Odds Range']})")
-                    if bet.get('Expected Value %'):
-                        st.caption(f"EV: {bet['Expected Value %']:+.1f}%")
-                    if bet.get('Filter Status'):
-                        st.caption(bet['Filter Status'])
-                
-                with col3:
-                    st.markdown(f"**{conf_icon} {bet['Value Score']:.1f}/100**")
-                    st.caption(bet['Confidence'])
-                    if bet.get('Interpretation'):
-                        st.caption(f"_{bet['Interpretation']}_")
-                
-                st.markdown('</div>', unsafe_allow_html=True)
-        
-        # Export button
-        st.markdown("---")
-        if st.button("📥 Export to Excel"):
-            output_file = f"daily_shortlist_{target_date.strftime('%Y%m%d')}.xlsx"
-            st.session_state.selector.export_to_excel(filtered, output_file)
-            st.success(f"✅ Exported to {output_file}")
-            
-            # Offer download
-            with open(output_file, 'rb') as f:
-                st.download_button(
-                    label="⬇️ Download Excel File",
-                    data=f,
-                    file_name=output_file,
-                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                )
+    # Bar chart – ROI by system
+    st.markdown("### ROI by System")
+    fig_bar = go.Figure()
+    for _, row in summary.iterrows():
+        color = SYS_COLORS.get(row["system"],"#1F3864")
+        fig_bar.add_trace(go.Bar(
+            x=[row["system"]], y=[row["roi"]],
+            marker_color=color, name=row["system"],
+            text=f'{row["roi"]:+.2f}%', textposition="outside",
+        ))
+    fig_bar.update_layout(
+        showlegend=False, height=350,
+        yaxis_title="ROI %", xaxis_title="",
+        plot_bgcolor="white",
+        yaxis=dict(gridcolor="#eee"),
+        margin=dict(t=20,b=20),
+    )
+    st.plotly_chart(fig_bar, use_container_width=True)
 
-elif page == "📈 Performance":
-    st.markdown('<div class="main-header">📈 Historical Performance</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">System statistics and backtesting</div>', unsafe_allow_html=True)
-    
-    # Load stats using session state function
-    portfolio = get_portfolio_stats()
-    
-    stats_data = []
-    for key, stat in portfolio['stats'].items():
-        stats_data.append(stat)
-    
-    stats_df = pd.DataFrame(stats_data)
-    
-    # Summary by system
-    st.markdown("### Performance by System")
-    
-    summary = stats_df.groupby('system').agg({
-        'roi': 'mean',
-        'total_bets': 'sum',
-        'profit': 'sum',
-        'strike_rate': 'mean'
-    }).round(2)
-    
-    summary = summary.rename(columns={
-        'roi': 'Avg ROI (%)',
-        'total_bets': 'Total Bets',
-        'profit': 'Total Profit',
-        'strike_rate': 'Avg SR (%)'
+    # Profit by system
+    st.markdown("### Profit Contribution (pts)")
+    fig_pie = go.Figure(go.Pie(
+        labels=summary["system"],
+        values=summary["profit"],
+        marker_colors=[SYS_COLORS.get(s,"#aaa") for s in summary["system"]],
+        hole=0.45,
+        textinfo="label+percent",
+    ))
+    fig_pie.update_layout(height=360, margin=dict(t=20,b=20), showlegend=False)
+    st.plotly_chart(fig_pie, use_container_width=True)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# PAGE: SYSTEM RANKINGS
+# ══════════════════════════════════════════════════════════════════════════════
+elif page == "🏆 System Rankings":
+    st.markdown("## 🏆 System Rankings")
+
+    sys_sel = st.selectbox("Select System", SYS_ORDER)
+    sys_df  = df_all[df_all["system"]==sys_sel].copy()
+    sys_tot = summary[summary["system"]==sys_sel].iloc[0]
+
+    # KPIs
+    c1,c2,c3,c4 = st.columns(4)
+    c1.metric("Total Bets",  f"{int(sys_tot['bets']):,}")
+    c2.metric("Total Profit",f"+{sys_tot['profit']:.2f} pts")
+    c3.metric("ROI",         f"{sys_tot['roi']:+.2f}%")
+    c4.metric("Avg SR",      f"{sys_tot['sr']:.2f}%")
+
+    st.markdown("---")
+    st.markdown("### League Rankings by ROI")
+
+    sys_df_sorted = sys_df.sort_values("roi", ascending=False).reset_index(drop=True)
+    sys_df_sorted["rank"] = sys_df_sorted.index + 1
+
+    # Horizontal bar chart
+    fig_h = go.Figure(go.Bar(
+        x=sys_df_sorted["roi"],
+        y=sys_df_sorted["league"],
+        orientation="h",
+        marker_color=[
+            "#375623" if r>20 else "#2E75B6" if r>10 else "#FFC000" if r>0 else "#C00000"
+            for r in sys_df_sorted["roi"]
+        ],
+        text=sys_df_sorted["roi"].map("{:+.1f}%".format),
+        textposition="outside",
+    ))
+    fig_h.update_layout(
+        height=max(300, len(sys_df_sorted)*35),
+        xaxis_title="ROI %", yaxis_title="",
+        plot_bgcolor="white", xaxis=dict(gridcolor="#eee"),
+        margin=dict(t=10,b=10,l=10,r=80),
+        yaxis=dict(categoryorder="total ascending"),
+    )
+    st.plotly_chart(fig_h, use_container_width=True)
+
+    st.markdown("### Detail Table")
+    disp = sys_df_sorted[["league","bets","sr","profit","roi"]].copy()
+    disp.columns = ["League","Bets","SR %","Profit","ROI %"]
+    disp["ROI %"]  = disp["ROI %"].map("{:+.2f}%".format)
+    disp["SR %"]   = disp["SR %"].map("{:.2f}%".format)
+    disp["Profit"] = disp["Profit"].map("{:+.2f}".format)
+    disp["Bets"]   = disp["Bets"].map("{:,}".format)
+    st.dataframe(disp, use_container_width=True, hide_index=True)
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# PAGE: LEAGUE BREAKDOWN
+# ══════════════════════════════════════════════════════════════════════════════
+elif page == "📋 League Breakdown":
+    st.markdown("## 📋 League Breakdown — All Systems")
+
+    # Heatmap: ROI per system × league (top 15 leagues by total bets)
+    top_leagues = (
+        df_all.groupby("league")["bets"].sum()
+        .nlargest(15).index.tolist()
+    )
+    hm_df = df_all[df_all["league"].isin(top_leagues)].copy()
+    pivot  = hm_df.pivot_table(index="league", columns="system",
+                                values="roi", aggfunc="sum").fillna(0)
+    pivot  = pivot.reindex(columns=SYS_ORDER, fill_value=0)
+
+    fig_hm = go.Figure(go.Heatmap(
+        z=pivot.values,
+        x=pivot.columns.tolist(),
+        y=pivot.index.tolist(),
+        colorscale=[
+            [0.0,"#C00000"],[0.4,"#FF9999"],
+            [0.5,"#FFFFFF"],
+            [0.7,"#9DC3E6"],[1.0,"#1F3864"],
+        ],
+        text=[[f"{v:+.1f}%" for v in row] for row in pivot.values],
+        texttemplate="%{text}",
+        hoverongaps=False,
+        colorbar=dict(title="ROI %"),
+    ))
+    fig_hm.update_layout(
+        height=500, margin=dict(t=20,b=20,l=160,r=20),
+        xaxis_title="", yaxis_title="",
+    )
+    st.plotly_chart(fig_hm, use_container_width=True)
+
+    st.markdown("---")
+    st.markdown("### Full Table — Filter by System")
+
+    sys_filter = st.multiselect(
+        "Systems", SYS_ORDER, default=SYS_ORDER,
+        key="lb_sys"
+    )
+    filtered = df_all[df_all["system"].isin(sys_filter)].copy()
+    filtered = filtered.sort_values(["system","roi"], ascending=[True,False])
+    filtered = filtered.rename(columns={
+        "system":"System","league":"League",
+        "bets":"Bets","sr":"SR %","roi":"ROI %","profit":"Profit"
     })
-    
-    st.dataframe(summary, use_container_width=True)
-    
-    # Detailed table
-    st.markdown("### All Configurations")
-    
-    display_df = stats_df[['system', 'league', 'roi', 'total_bets', 'strike_rate', 'profit']]
-    display_df = display_df.rename(columns={
-        'system': 'System',
-        'league': 'League',
-        'roi': 'ROI (%)',
-        'total_bets': 'Bets',
-        'strike_rate': 'SR (%)',
-        'profit': 'Profit'
-    })
-    display_df = display_df.sort_values('ROI (%)', ascending=False)
-    
-    st.dataframe(display_df, use_container_width=True, height=600)
+    filtered["ROI %"]  = filtered["ROI %"].map("{:+.2f}%".format)
+    filtered["SR %"]   = filtered["SR %"].map("{:.2f}%".format)
+    filtered["Profit"] = filtered["Profit"].map("{:+.2f}".format)
+    filtered["Bets"]   = filtered["Bets"].map("{:,}".format)
+    st.dataframe(filtered[["System","League","Bets","SR %","Profit","ROI %"]],
+                 use_container_width=True, hide_index=True, height=500)
 
+
+# ══════════════════════════════════════════════════════════════════════════════
+# PAGE: SYSTEM CONFIG
+# ══════════════════════════════════════════════════════════════════════════════
 elif page == "⚙️ System Config":
-    st.markdown('<div class="main-header">⚙️ System Configuration</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">View and manage betting systems</div>', unsafe_allow_html=True)
-    
-    # Load configuration
-    with open('config/systems_config.json', 'r') as f:
-        config = json.load(f)
-    
-    # Select system
-    system_name = st.selectbox(
-        "Select System",
-        options=list(config.keys())
-    )
-    
-    system_config = config[system_name]
-    
-    # Display system info
-    col1, col2 = st.columns(2)
-    
-    with col1:
+    st.markdown("## ⚙️ System Configuration")
+
+    sys_sel = st.selectbox("Select System", SYS_ORDER)
+    sc      = cfg[sys_sel]
+
+    c1,c2 = st.columns(2)
+    with c1:
         st.markdown("### System Details")
-        st.write(f"**Market:** {system_config['market_column']}")
-        st.write(f"**Has Filter:** {system_config['has_filter']}")
-        if system_config['has_filter']:
-            st.write(f"**Filter:** {system_config['filter_condition']}")
-        st.write(f"**Configurations:** {len(system_config['configurations'])}")
-    
-    with col2:
-        st.markdown("### Performance")
-        # Load stats using session state function
-        stats = get_portfolio_stats()
-        
-        system_stats = [
-            v for k, v in stats['stats'].items() 
-            if v['system'] == system_name
-        ]
-        
-        if system_stats:
-            avg_roi = sum(s['roi'] for s in system_stats) / len(system_stats)
-            total_bets = sum(s['total_bets'] for s in system_stats)
-            total_profit = sum(s['profit'] for s in system_stats)
-            
-            st.metric("Average ROI", f"{avg_roi:.2f}%")
-            st.metric("Total Bets", total_bets)
-            st.metric("Total Profit", f"{total_profit:.2f} units")
-    
-    # Show configurations table
+        st.write(f"**Market column:** `{sc['market_column']}`")
+        st.write(f"**Has filter:** {sc['has_filter']}")
+        if sc["has_filter"]:
+            st.write(f"**Filter condition:** `{sc['filter_condition']}`")
+        st.write(f"**Leagues configured:** {len(sc['configurations'])}")
+
+    with c2:
+        st.markdown("### System Performance")
+        row = summary[summary["system"]==sys_sel].iloc[0]
+        st.metric("Total Bets",   f"{int(row['bets']):,}")
+        st.metric("Total Profit", f"+{row['profit']:.2f} pts")
+        st.metric("ROI",          f"{row['roi']:+.2f}%")
+        st.metric("Avg SR",       f"{row['sr']:.2f}%")
+
+    st.markdown("---")
     st.markdown("### League Configurations")
-    
-    config_df = pd.DataFrame(system_config['configurations'])
-    config_df = config_df.rename(columns={
-        'league': 'League',
-        'exact_min': 'Exact Min',
-        'exact_max': 'Exact Max',
-        'buffer_min': 'Buffer Min',
-        'buffer_max': 'Buffer Max'
+    cfg_df = pd.DataFrame(sc["configurations"]).rename(columns={
+        "league":"League","exact_min":"Exact Min","exact_max":"Exact Max",
+        "buffer_min":"Buffer Min","buffer_max":"Buffer Max",
     })
-    
-    st.dataframe(config_df, use_container_width=True)
+    st.dataframe(cfg_df, use_container_width=True, hide_index=True)
 
-elif page == "🎲 Monte Carlo":
-    st.markdown('<div class="main-header">🎲 Monte Carlo Analysis</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Run 1,000+ simulations to analyze true ROI, drawdowns, and risk</div>', unsafe_allow_html=True)
-    
-    # Load portfolio stats using session state function
-    portfolio_stats_mc = get_portfolio_stats()
-    
-    # Create tabs
-    tab1, tab2 = st.tabs(["🎯 Single System", "📊 Full Portfolio"])
-    
-    with tab1:
-        st.markdown("### Analyze Individual System")
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            all_systems = ['Home Win', 'O2.5 Back', 'O3.5 Lay', 'U1.5 Lay', 'FHGU0.5 Lay']
-            selected_system = st.selectbox("Select System", all_systems)
-            
-            system_leagues = [
-                key.split('|')[1] 
-                for key in portfolio_stats_mc['stats'].keys() 
-                if key.startswith(selected_system)
-            ]
-            selected_league = st.selectbox("Select League", system_leagues)
-        
-        with col2:
-            num_sims = st.selectbox(
-                "Number of Simulations",
-                [1000, 5000, 10000],
-                index=0,
-                help="More simulations = more accurate (but slower)"
-            )
-            
-            num_bets = st.selectbox(
-                "Bets per Simulation",
-                [50, 100, 200, 500],
-                index=1,
-                help="How many bets to simulate"
-            )
-        
-        if st.button("🎲 Run Monte Carlo Simulation", type="primary"):
-            with st.spinner(f"Running {num_sims:,} simulations... This may take 30-60 seconds..."):
-                try:
-                    simulator = MonteCarloSimulator('config')
-                    results = simulator.simulate_system(
-                        system_name=selected_system,
-                        league=selected_league,
-                        num_simulations=num_sims,
-                        num_bets=num_bets
-                    )
-                    
-                    st.session_state.monte_carlo_results = results
-                    st.success(f"✅ Simulation complete! Analyzed {num_sims:,} scenarios.")
-                    
-                except Exception as e:
-                    st.error(f"Error: {str(e)}")
-                    st.exception(e)
-        
-        if st.session_state.monte_carlo_results:
-            results = st.session_state.monte_carlo_results
-            
-            st.markdown("---")
-            st.markdown("### 📊 Simulation Results")
-            
-            col1, col2, col3, col4 = st.columns(4)
-            
-            with col1:
-                st.metric(
-                    "Expected ROI",
-                    f"{results['mean_roi']:.2f}%",
-                    delta=f"{results['mean_roi'] - results['historical_roi']:.2f}% vs historical"
-                )
-            
-            with col2:
-                st.metric(
-                    "90% Confidence",
-                    f"{results['roi_5th_percentile']:.1f}% to {results['roi_95th_percentile']:.1f}%"
-                )
-            
-            with col3:
-                st.metric(
-                    "Probability of Profit",
-                    f"{results['prob_profit']:.1f}%"
-                )
-            
-            with col4:
-                st.metric(
-                    "Expected Profit",
-                    f"+{results['mean_profit']:.1f} units"
-                )
-            
-            st.markdown("---")
-            st.markdown("### ⚠️ Risk Analysis")
-            
-            col1, col2, col3 = st.columns(3)
-            
-            with col1:
-                st.metric("Mean Max Drawdown", f"{results['mean_drawdown']:.2f} units")
-            with col2:
-                st.metric("95th Percentile DD", f"{results['drawdown_95th_percentile']:.2f} units")
-            with col3:
-                st.metric("Worst Case DD", f"{results['max_drawdown']:.2f} units")
-            
-            simulator = MonteCarloSimulator('config')
-            bankroll = simulator.calculate_bankroll_requirements(results)
-            
-            st.info(f"💰 **Recommended Bankroll**: {bankroll['recommended_bankroll']:.1f} units | " +
-                   f"With 95% confidence, max drawdown won't exceed {bankroll['drawdown_95th_percentile']:.1f} units")
-            
-            st.markdown("---")
-            st.markdown("### 📈 Visual Analysis")
-            
-            fig = simulator.create_visualizations(results)
-            st.plotly_chart(fig, use_container_width=True)
-            
-            with st.expander("📋 Detailed Statistics"):
-                col1, col2 = st.columns(2)
-                
-                with col1:
-                    st.markdown("**Historical Performance:**")
-                    st.write(f"- Sample Size: {results['historical_sample']} bets")
-                    st.write(f"- ROI: {results['historical_roi']:.2f}%")
-                    st.write(f"- Strike Rate: {results['historical_sr']:.2f}%")
-                    
-                    st.markdown("**Expected ROI:**")
-                    st.write(f"- Mean: {results['mean_roi']:.2f}%")
-                    st.write(f"- Median: {results['median_roi']:.2f}%")
-                    st.write(f"- 5th Percentile: {results['roi_5th_percentile']:.2f}%")
-                    st.write(f"- 95th Percentile: {results['roi_95th_percentile']:.2f}%")
-                
-                with col2:
-                    st.markdown("**Expected Profit:**")
-                    st.write(f"- Mean: {results['mean_profit']:.2f} units")
-                    st.write(f"- Min: {results['min_profit']:.2f} units")
-                    st.write(f"- Max: {results['max_profit']:.2f} units")
-                    
-                    st.markdown("**Risk Metrics:**")
-                    st.write(f"- Mean DD: {results['mean_drawdown']:.2f} units")
-                    st.write(f"- 95th DD: {results['drawdown_95th_percentile']:.2f} units")
-                    st.write(f"- Max DD: {results['max_drawdown']:.2f} units")
-    
-    with tab2:
-        st.markdown("### Analyze Full Portfolio (All 45 Configurations)")
-        
-        st.info("""
-        Run Monte Carlo on all 45 systems simultaneously.
-        
-        **What you'll get:**
-        - Portfolio-level expected ROI
-        - Total drawdown risk  
-        - Probability of profit
-        - System rankings
-        
-        ⏱️ **Time:** 1-2 minutes
-        """)
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            portfolio_sims = st.selectbox("Number of Simulations", [1000, 2000, 5000], index=0)
-        
-        with col2:
-            bets_per_system = st.selectbox("Bets per System", [10, 20, 50], index=1)
-        
-        if st.button("🎲 Run Full Portfolio Analysis", type="primary"):
-            with st.spinner(f"Analyzing all 45 configurations... This will take 1-2 minutes..."):
-                try:
-                    simulator = MonteCarloSimulator('config')
-                    portfolio_results = simulator.simulate_portfolio(
-                        num_simulations=portfolio_sims,
-                        num_bets_per_system=bets_per_system
-                    )
-                    
-                    st.success("✅ Portfolio analysis complete!")
-                    
-                    st.markdown("### 📊 Portfolio Performance")
-                    
-                    col1, col2, col3, col4 = st.columns(4)
-                    
-                    with col1:
-                        st.metric("Portfolio ROI", f"{portfolio_results['portfolio_mean_roi']:.2f}%")
-                    with col2:
-                        st.metric("90% Confidence", 
-                                f"{portfolio_results['portfolio_roi_5th']:.1f}% to {portfolio_results['portfolio_roi_95th']:.1f}%")
-                    with col3:
-                        st.metric("Prob of Profit", f"{portfolio_results['portfolio_prob_profit']:.1f}%")
-                    with col4:
-                        st.metric("Expected Profit", f"+{portfolio_results['portfolio_mean_profit']:.1f} units")
-                    
-                    st.markdown("---")
-                    st.markdown("### ⚠️ Portfolio Risk")
-                    
-                    col1, col2, col3 = st.columns(3)
-                    
-                    with col1:
-                        st.metric("Total Bets/Sim", portfolio_results['total_bets_per_sim'])
-                    with col2:
-                        st.metric("Configurations", portfolio_results['num_configs'])
-                    with col3:
-                        st.metric("Max Portfolio DD", f"{portfolio_results['portfolio_max_drawdown']:.1f} units")
-                    
-                    st.markdown("---")
-                    st.markdown("### 🏆 System Rankings")
-                    
-                    system_data = []
-                    for config in portfolio_results['configs']:
-                        system_data.append({
-                            'System': config['system'],
-                            'League': config['league'],
-                            'Expected ROI': config['mean_roi'],
-                            'Prob Profit': config['prob_profit'],
-                            'Mean DD': config['mean_drawdown'],
-                            'Historical ROI': config['historical_roi']
-                        })
-                    
-                    systems_df = pd.DataFrame(system_data)
-                    systems_df = systems_df.sort_values('Expected ROI', ascending=False)
-                    
-                    st.markdown("#### Top 10 Systems by Expected ROI")
-                    st.dataframe(
-                        systems_df.head(10).style.format({
-                            'Expected ROI': '{:.2f}%',
-                            'Prob Profit': '{:.1f}%',
-                            'Mean DD': '{:.2f}',
-                            'Historical ROI': '{:.2f}%'
-                        }),
-                        use_container_width=True
-                    )
-                    
-                    st.markdown("### 📈 Portfolio ROI Distribution")
-                    
-                    fig = go.Figure()
-                    fig.add_trace(go.Histogram(
-                        x=portfolio_results['all_portfolio_rois'],
-                        nbinsx=50,
-                        marker_color='#366092',
-                        name='Portfolio ROI'
-                    ))
-                    fig.add_vline(
-                        x=portfolio_results['portfolio_mean_roi'],
-                        line_dash="dash",
-                        line_color="red",
-                        annotation_text=f"Mean: {portfolio_results['portfolio_mean_roi']:.2f}%"
-                    )
-                    fig.update_layout(
-                        title="Distribution of Portfolio ROI Outcomes",
-                        xaxis_title="ROI (%)",
-                        yaxis_title="Frequency",
-                        height=400
-                    )
-                    st.plotly_chart(fig, use_container_width=True)
-                    
-                except Exception as e:
-                    st.error(f"Error: {str(e)}")
-                    st.exception(e)
 
-elif page == "📥 Database Upload":
-    st.markdown('<div class="main-header">📥 Database Upload</div>', unsafe_allow_html=True)
-    st.markdown('<div class="sub-header">Update historical data and refresh system statistics</div>', unsafe_allow_html=True)
-    
-    st.markdown("""
-    ### How to Update Your Database
-    
-    Upload your complete historical match database to:
-    - ✅ Update all system statistics
-    - ✅ Recalculate ROI and strike rates
-    - ✅ Refresh performance charts
-    - ✅ Update value scoring calculations
-    
-    **Required columns in your file:**
-    - Date, League, Home Team, Away Team, Season
-    - Home Back Odds, O2.5 Back Odds, O3.5 Lay Odds, U1.5 Lay Odds, FHGU0.5 Lay Odds
-    - FTR (Full Time Result: H/D/A)
-    - FTHG (Full Time Home Goals)
-    - FTAG (Full Time Away Goals)
-    """)
-    
-    uploaded_db = st.file_uploader(
-        "Upload Historical Database (Excel)",
-        type=['xlsx'],
-        help="Upload your complete historical match database"
-    )
-    
-    if uploaded_db is not None:
-        st.info(f"📁 File uploaded: {uploaded_db.name} ({uploaded_db.size:,} bytes)")
-        
-        # SINGLE BUTTON - No nested buttons!
-        if st.button("🔄 Process Database and Update All Statistics", type="primary"):
-            with st.spinner("Processing historical database and recalculating statistics... This may take 1-2 minutes..."):
-                try:
-                    # Save file
-                    db_file = Path("data/historical_matches.xlsx")
-                    db_file.parent.mkdir(exist_ok=True)
-                    
-                    with open(db_file, "wb") as f:
-                        f.write(uploaded_db.getbuffer())
-                    
-                    # Load and validate (header is at row 1)
-                    historical = pd.read_excel(db_file, header=1, engine='openpyxl')
-                    
-                    # Drop any completely blank columns
-                    historical = historical.dropna(axis=1, how='all')
-                    
-                    # Drop any unnamed/blank columns
-                    historical = historical.loc[:, ~historical.columns.str.contains('^Unnamed')]
-                    
-                    # CRITICAL: Standardize column names based on actual file structure
-                    column_mapping = {
-                        'Competition': 'League',
-                        'FT1X2': 'FTR',          # Full Time Result (H/D/A)
-                        'FT Home': 'FTHG',       # Full Time Home Goals
-                        'FT Away': 'FTAG'        # Full Time Away Goals
-                    }
-                    
-                    for old_name, new_name in column_mapping.items():
-                        if old_name in historical.columns:
-                            historical = historical.rename(columns={old_name: new_name})
-                    
-                    # CRITICAL: Convert FTR from 1/X/2 format to H/D/A format
-                    if 'FTR' in historical.columns:
-                        ftr_mapping = {
-                            '1': 'H',  # Home win
-                            'X': 'D',  # Draw
-                            '2': 'A'   # Away win
-                        }
-                        historical['FTR'] = historical['FTR'].astype(str).map(ftr_mapping)
-                        
-                        # Verify conversion
-                        st.write(f"✅ FTR converted: {historical['FTR'].value_counts().to_dict()}")
-                    
-                    st.success(f"✅ Loaded {len(historical):,} historical matches")
-                    
-                    # Show sample
-                    st.markdown("#### Sample Data (First 5 Rows)")
-                    sample_cols = ['Date', 'League', 'Home Team', 'Away Team', 'FTR', 'FTHG', 'FTAG']
-                    
-                    available_cols = [col for col in sample_cols if col in historical.columns]
-                    st.dataframe(historical.head()[available_cols], use_container_width=True)
-                    
-                    st.markdown("---")
-                    st.markdown("### Recalculating System Statistics...")
-                    
-                    # Process database immediately (no second button)
-                    # Pass the DataFrame directly instead of the file path
-                    from models.database_processor import DatabaseProcessor
-                    
-                    processor = DatabaseProcessor('config')
-                    
-                    # Instead of update_from_database, we'll call the processing methods directly
-                    # First, ensure the DataFrame has the right format
-                    historical['Date'] = pd.to_datetime(historical['Date'], errors='coerce')
-                    
-                    # CRITICAL: Calculate stats with correct LAY/BACK profit logic
-                    # We need to override the processor's calculate_system_stats method
-                    
-                    import numpy as np
-                    
-                    def calculate_system_stats_correct(processor, historical_df, system_name, system_config):
-                        """Calculate stats with CORRECT LAY/BACK profit logic"""
-                        market_col = system_config['market_column']
-                        has_filter = system_config['has_filter']
-                        filter_col = system_config.get('filter_column')
-                        filter_condition = system_config.get('filter_condition')
-                        
-                        # Determine if this is a LAY system
-                        is_lay = 'Lay' in system_name
-                        
-                        all_stats = {}
-                        
-                        for config in system_config['configurations']:
-                            league = config['league']
-                            min_odds = config['exact_min']
-                            max_odds = config['exact_max']
-                            
-                            # Filter by league
-                            league_df = historical_df[historical_df['League'] == league].copy()
-                            
-                            if len(league_df) == 0:
-                                continue
-                            
-                            if market_col not in league_df.columns:
-                                continue
-                            
-                            # Filter by odds range
-                            bets_df = league_df[
-                                (league_df[market_col] >= min_odds) & 
-                                (league_df[market_col] <= max_odds)
-                            ].copy()
-                            
-                            if len(bets_df) < 30:  # Minimum threshold
-                                continue
-                            
-                            # Apply filter if needed
-                            if has_filter and filter_col and filter_condition:
-                                if filter_col in bets_df.columns:
-                                    if '>' in filter_condition:
-                                        threshold = float(filter_condition.split('>')[1].strip())
-                                        bets_df = bets_df[bets_df[filter_col] > threshold]
-                            
-                            # Calculate wins based on system type
-                            if system_name == 'Home Win':
-                                bets_df['Win'] = (bets_df['FTR'] == 'H').astype(int)
-                            elif system_name == 'O2.5 Back':
-                                bets_df['Win'] = ((bets_df['FTHG'] + bets_df['FTAG']) > 2.5).astype(int)
-                            elif system_name == 'O3.5 Lay':
-                                bets_df['Win'] = ((bets_df['FTHG'] + bets_df['FTAG']) <= 3.5).astype(int)
-                            elif system_name == 'U1.5 Lay':
-                                bets_df['Win'] = ((bets_df['FTHG'] + bets_df['FTAG']) > 1.5).astype(int)
-                            elif system_name == 'FHGU0.5 Lay':
-                                if 'HT Total Goals' in bets_df.columns:
-                                    bets_df['Win'] = (bets_df['HT Total Goals'] > 0.5).astype(int)
-                                else:
-                                    continue
-                            
-                            # CRITICAL: Calculate profit with correct LAY/BACK logic
-                            if is_lay:
-                                # LAY: Win = +1, Loss = -(odds-1)
-                                bets_df['Profit'] = bets_df.apply(
-                                    lambda row: 1.0 if row['Win'] == 1 else -(row[market_col] - 1),
-                                    axis=1
-                                )
-                            else:
-                                # BACK: Win = +(odds-1), Loss = -1
-                                bets_df['Profit'] = bets_df.apply(
-                                    lambda row: (row[market_col] - 1) if row['Win'] == 1 else -1.0,
-                                    axis=1
-                                )
-                            
-                            total_bets = len(bets_df)
-                            wins = int(bets_df['Win'].sum())
-                            total_profit = float(bets_df['Profit'].sum())
-                            strike_rate = float((wins / total_bets * 100) if total_bets > 0 else 0)
-                            roi = float((total_profit / total_bets * 100) if total_bets > 0 else 0)
-                            
-                            key = f"{system_name}|{league}"
-                            all_stats[key] = {
-                                'system': system_name,
-                                'league': league,
-                                'total_bets': total_bets,
-                                'wins': wins,
-                                'strike_rate': round(strike_rate, 2),
-                                'profit': round(total_profit, 2),
-                                'roi': round(roi, 2)
-                            }
-                        
-                        return all_stats
-                    
-                    # Process all systems with correct logic
-                    all_system_stats = {}
-                    
-                    with open('config/systems_config.json', 'r') as f:
-                        systems_config = json.load(f)
-                    
-                    for system_name, system_config in systems_config.items():
-                        system_stats = calculate_system_stats_correct(
-                            processor, 
-                            historical, 
-                            system_name, 
-                            system_config
-                        )
-                        all_system_stats.update(system_stats)
-                    
-                    # Calculate max ROI
-                    max_roi = max([s['roi'] for s in all_system_stats.values()]) if all_system_stats else 0
-                    
-                    # Create stats structure
-                    stats = {
-                        'stats': all_system_stats,
-                        'max_roi': max_roi
-                    }
-                    
-                    # CRITICAL: Store in session state (Streamlit Cloud compatible)
-                    st.session_state.portfolio_stats = stats
-                    
-                    # Try to save to file (may fail on read-only filesystem - that's OK)
-                    try:
-                        # Replace NaN and Infinity with None before saving
-                        import math
-                        def clean_for_json(obj):
-                            if isinstance(obj, dict):
-                                return {k: clean_for_json(v) for k, v in obj.items()}
-                            elif isinstance(obj, list):
-                                return [clean_for_json(item) for item in obj]
-                            elif isinstance(obj, float):
-                                if math.isnan(obj) or math.isinf(obj):
-                                    return None
-                                return obj
-                            return obj
-                        
-                        clean_stats = clean_for_json(stats)
-                        with open('config/portfolio_stats.json', 'w') as f:
-                            json.dump(clean_stats, f, indent=2)
-                    except:
-                        pass  # Silently ignore if filesystem is read-only
-                    
-                    st.success("✅ Database processed and statistics updated!")
-                    st.balloons()
-                    
-                    st.markdown("### Updated Statistics Summary")
-                    st.write(f"Total configurations: {len(stats['stats'])}")
-                    st.write(f"Max ROI: {stats['max_roi']:.2f}%")
-                    st.write(f"Total bets: {sum(s['total_bets'] for s in stats['stats'].values()):,}")
-                    
-                    # Clear monte carlo results so they'll be recalculated with new data
-                    if 'monte_carlo_results' in st.session_state:
-                        st.session_state.monte_carlo_results = None
-                    
-                    st.info("🔄 Statistics updated! Navigate to other tabs to see the new data.")
-                    
-                    # Force rerun to refresh the page
-                    st.rerun()
-                    st.rerun()
-                    
-                except Exception as e:
-                    st.error(f"❌ Error processing database: {str(e)}")
-                    st.exception(e)
-
-# Footer
+# ── Footer ────────────────────────────────────────────────────────────────────
 st.markdown("---")
-st.markdown("""
-<div style='text-align: center; color: #666; font-size: 0.9rem;'>
-    Football Betting Model v1.0 | Built with Streamlit | © 2026
-</div>
-""", unsafe_allow_html=True)
+st.markdown(
+    "<div style=\'text-align:center;color:#888;font-size:0.85rem;\'>"
+    "FTS Odds Portfolio Dashboard &nbsp;|&nbsp; Updated Jun 2026"
+    "</div>",
+    unsafe_allow_html=True,
+)
