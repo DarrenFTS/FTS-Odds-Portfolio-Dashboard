@@ -100,36 +100,60 @@ def scan_fixtures(fixtures_df: pd.DataFrame) -> list[dict]:
     """
     Apply all 5 system rules to a fixtures dataframe.
     Returns list of qualifying bets.
+
+    Supports the FTSAdvanced-PreMatch.xlsx format (header=1):
+      Competition, Home Team, Away Team, Date, Time
+      FHGU0.5 Lay odds → 'FHGU0.5.1'
+      U1.5 Lay odds    → 'U1.5.1'
+      O3.5 Lay odds    → 'O3.5.1'
+      O2.5 Back odds   → 'Over 2.5 Back'
+      Home Win Back    → 'Home Win Back'
+      Home Back (filter) → 'Home Win Back'
+    Also handles generic uploads with standard column names.
     """
-    # Normalise column names
-    col_map = {}
-    for col in fixtures_df.columns:
-        cl = col.strip().lower()
-        if cl in ("league","competition"):          col_map[col] = "Competition"
-        elif cl in ("home team","home_team"):       col_map[col] = "Home Team"
-        elif cl in ("away team","away_team"):       col_map[col] = "Away Team"
-        elif cl in ("date",):                       col_map[col] = "Date"
-        elif cl in ("time","kick off","kickoff"):   col_map[col] = "Time"
-        elif "fhgu" in cl and "odds" in cl:         col_map[col] = "FHGU0.5 Lay Odds"
-        elif "u1.5" in cl and "odds" in cl:         col_map[col] = "U1.5 Lay Odds"
-        elif "o3.5" in cl and "odds" in cl:         col_map[col] = "O3.5 Lay Odds"
-        elif "o2.5" in cl and "back odds" in cl:    col_map[col] = "O2.5 Back Odds"
-        elif "home back" in cl and "odds" in cl:    col_map[col] = "Home Back Odds"
-    fixtures_df = fixtures_df.rename(columns=col_map)
+    cols = fixtures_df.columns.tolist()
+
+    # ── Map to internal names ──────────────────────────────────────────────
+    def find_col(*candidates):
+        for c in candidates:
+            if c in cols:
+                return c
+        return None
+
+    competition_col = find_col("Competition","League","competition","league")
+    home_col        = find_col("Home Team","home_team","Home","home")
+    away_col        = find_col("Away Team","away_team","Away","away")
+    date_col        = find_col("Date","date")
+    time_col        = find_col("Time","time","Kick Off","kickoff")
+
+    # Odds: FTSAdvanced-PreMatch format first, then generic fallback
+    ODDS_COLS = {
+        "FHGU0.5 Lay": find_col("FHGU0.5.1","FHGU0.5","FHGU0.5 Lay Odds"),
+        "U1.5 Lay":    find_col("U1.5.1","U1.5","U1.5 Lay Odds"),
+        "O3.5 Lay":    find_col("O3.5.1","O3.5","O3.5 Lay Odds"),
+        "O2.5 Back":   find_col("Over 2.5 Back","O2.5","O2.5 Back Odds"),
+        "Home Win":    find_col("Home Win Back","Home Back Odds"),
+    }
+    HOME_BACK_COL = find_col("Home Win Back","Home Back Odds","Home Odds")
 
     qualifying = []
 
     for _, row in fixtures_df.iterrows():
-        league = str(row.get("Competition",""))
-        home   = str(row.get("Home Team",""))
-        away   = str(row.get("Away Team",""))
-        date   = row.get("Date","")
-        time   = row.get("Time","")
+        league = str(row[competition_col]) if competition_col and pd.notna(row[competition_col]) else ""
+        home   = str(row[home_col])        if home_col        and pd.notna(row[home_col])        else ""
+        away   = str(row[away_col])        if away_col        and pd.notna(row[away_col])        else ""
+        date   = row[date_col]             if date_col        else ""
+        time   = row[time_col]             if time_col        else ""
+
+        if not league or league in ("nan","None",""):
+            continue
 
         for sys_name in SYS_ORDER:
-            sys_cfg     = cfg[sys_name]
-            market_col  = MARKET_COLS[sys_name]
-            odds        = row.get(market_col)
+            sys_cfg    = cfg[sys_name]
+            odds_col   = ODDS_COLS[sys_name]
+            if odds_col is None:
+                continue
+            odds = row.get(odds_col)
 
             if odds is None or (isinstance(odds, float) and np.isnan(odds)):
                 continue
@@ -152,7 +176,7 @@ def scan_fixtures(fixtures_df: pd.DataFrame) -> list[dict]:
             # O2.5 Back filter: Home Back Odds > 2.00
             filter_note = ""
             if sys_cfg.get("has_filter") and sys_cfg.get("filter_condition"):
-                home_odds = row.get("Home Back Odds")
+                home_odds = row.get(HOME_BACK_COL) if HOME_BACK_COL else None
                 if home_odds is None or (isinstance(home_odds, float) and np.isnan(home_odds)):
                     continue
                 try:
@@ -238,7 +262,21 @@ if page == "📊 Daily Selector":
             if uploaded.name.endswith(".csv"):
                 fx = pd.read_csv(uploaded)
             else:
-                fx = pd.read_excel(uploaded)
+                # Try header=1 first (FTSAdvanced-PreMatch format)
+                fx_try = pd.read_excel(uploaded, header=1)
+                # If first column looks like 'Date' in row 0 it's a single-header file
+                if "Competition" in fx_try.columns or "Competition" in fx_try.columns:
+                    fx = fx_try
+                elif "Date" in fx_try.columns and "Competition" in fx_try.columns:
+                    fx = fx_try
+                else:
+                    # Fall back to header=0 for standard files
+                    uploaded.seek(0)
+                    fx = pd.read_excel(uploaded, header=0)
+            # Drop any row where Competition is NaN or looks like a header repeat
+            if "Competition" in fx.columns:
+                fx = fx[fx["Competition"].notna()]
+                fx = fx[fx["Competition"] != "Competition"]
             st.success(f"✅ Loaded **{len(fx):,} fixtures** from {uploaded.name}")
         except Exception as e:
             st.error(f"Could not read file: {e}")
